@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev --port 3000",
-    "build": "next build",
+    "build": "node ../../scripts/check-public-env.mjs && next build",
     "start": "next start --port 3000",
-    "lint": "next lint",
+    "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run"
   },
@@ -25,13 +25,17 @@
     "zustand": "^5.0.5"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.1",
     "@tailwindcss/postcss": "^4.3.5",
     "@testing-library/react": "^16.3.0",
     "@types/node": "^22.15.0",
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.0",
     "@vitejs/plugin-react": "^4.5.0",
+    "@webuy/eslint-config": "workspace:*",
     "@webuy/typescript-config": "workspace:*",
+    "eslint": "^9.28.0",
+    "eslint-config-next": "^15.3.3",
     "jsdom": "^26.1.0",
     "postcss": "^8.5.3",
     "tailwindcss": "^4.3.5",

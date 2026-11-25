@@ -1,0 +1,16 @@
+---
+description: WeBuy core engineering principles for all agents and contributors
+alwaysApply: true
+---
+
+# WeBuy core rules
+
+- Follow root `AGENTS.md` and `CLOUD.md`. Prefer codebase + `docs/` over assumptions.
+- Interview the requester until scope is clear; if the answer is already in the repo, use it.
+- Default to `@kiichan/design-system`. Do not reinvent DS primitives unless explicitly told to.
+- Start simple. Separation of concerns: thin UI + hooks/services. Clean, readable code.
+- No `console.log` / `console.debug` / `console.info` in app source (ESLint `no-console`).
+- Never expose secrets via `NEXT_PUBLIC_*` or `VITE_*`. Warn and refuse; build script fails on secret-like public names.
+- Unless waived: lint, unit tests, and production build must pass.
+- Write as a real ecommerce product — never label this a demo/sample/interview app in docs or UI.
+- Conventional commits. Do not skip git hooks.

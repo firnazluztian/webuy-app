@@ -1,12 +1,16 @@
 # `@webuy/bo`
 
-WeBuy backoffice — Vite + React 19.
+WeBuy backoffice — **Vite** + React 19 + Tailwind 4.
 
-## Phase 1
+## Overview
 
-- Dev server: **http://localhost:5175**
-- Single page: login shell with `@kiichan/design-system` `Button` (no real auth)
-- Tailwind 4 via `@webuy/tailwind-config` (kiichan v3 tokens + General Sans)
+| Item | Value |
+| --- | --- |
+| Package | `@webuy/bo` |
+| Dev URL | http://localhost:5175 |
+| UI | `@kiichan/design-system` (pnpm catalog) |
+| Theme | `@webuy/tailwind-config` |
+| Lint | `@webuy/eslint-config/react` |
 
 ## Commands
 
@@ -14,17 +18,22 @@ From monorepo root:
 
 ```bash
 pnpm dev:bo
+pnpm turbo run lint test build --filter=@webuy/bo
 ```
 
-Or from this package:
+From this package:
 
 ```bash
 pnpm dev
+pnpm lint
+pnpm test
 pnpm build
+pnpm preview
 ```
 
 ## Notes
 
-- Chosen Vite over Next because BO is mostly client-side admin UI.
-- Shares the same kiichan design-system version as the storefront via pnpm catalog ([ADR-0002](../../docs/adr/0002-shared-kiichan-catalog-pin.md)).
-- Bump process: root [README](../../README.md).
+- Vite over Next: BO is mostly client-side admin UI ([ADR-0001](../../docs/adr/0001-monorepo-over-microfrontends.md)).
+- Same kiichan version as the storefront via pnpm catalog ([ADR-0002](../../docs/adr/0002-shared-kiichan-catalog-pin.md)).
+- `VITE_*` is public — never put secrets there. Builds run `scripts/check-public-env.mjs`.
+- Follow root [AGENTS.md](../../AGENTS.md) and [README](../../README.md).

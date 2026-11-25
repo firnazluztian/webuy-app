@@ -7,10 +7,12 @@
     "dev": "turbo run dev",
     "dev:web": "turbo run dev --filter=@webuy/web",
     "dev:bo": "turbo run dev --filter=@webuy/bo",
-    "build": "turbo run build",
+    "build": "node scripts/check-public-env.mjs && turbo run build",
     "lint": "turbo run lint",
     "test": "turbo run test",
     "typecheck": "turbo run typecheck",
+    "check:public-env": "node scripts/check-public-env.mjs",
+    "prepare": "husky",
     "release:web:patch": "node scripts/release.mjs web patch",
     "release:web:minor": "node scripts/release.mjs web minor",
     "release:web:major": "node scripts/release.mjs web major",
@@ -18,7 +20,23 @@
     "release:bo:minor": "node scripts/release.mjs bo minor",
     "release:bo:major": "node scripts/release.mjs bo major"
   },
+  "lint-staged": {
+    "apps/**/*.{ts,tsx,js,jsx,mjs}": [
+      "eslint --fix"
+    ],
+    "packages/**/*.{ts,tsx,js,jsx,mjs}": [
+      "eslint --fix"
+    ],
+    "scripts/**/*.{js,mjs,cjs,ts}": [
+      "eslint --fix"
+    ]
+  },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.1",
+    "@webuy/eslint-config": "workspace:*",
+    "eslint": "^9.28.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.2",
     "turbo": "^2.5.4",
     "typescript": "^5.8.3"
   }

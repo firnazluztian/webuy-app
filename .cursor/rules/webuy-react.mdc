@@ -1,0 +1,15 @@
+---
+description: React / Next / Vite patterns for WeBuy apps
+globs: apps/**/*.{ts,tsx}
+alwaysApply: false
+---
+
+# WeBuy React patterns
+
+- Feature modules over flat component dumps as domains grow.
+- Colocate component + hook when the hook serves one UI; promote to shared only when reused.
+- Prefer server components / server data on the storefront when they fit; use TanStack Query for client cache needs.
+- Zustand for light client UI/session state — not a second server cache.
+- Strict TypeScript; no `any` without a written justification in the PR.
+- Loading / empty / error states are required for user-facing async UI.
+- Reuse `@webuy/tailwind-config` tokens; avoid one-off color hex when a token exists.

@@ -5,10 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite --port 5175",
-    "build": "tsc --noEmit && vite build",
+    "build": "node ../../scripts/check-public-env.mjs && tsc --noEmit && vite build",
     "preview": "vite preview --port 5175",
-    "lint": "tsc --noEmit",
-    "typecheck": "tsc --noEmit"
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests"
   },
   "dependencies": {
     "@iconify/react": "^6.0.4",
@@ -26,10 +27,14 @@
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.0",
     "@vitejs/plugin-react": "^4.5.0",
+    "@webuy/eslint-config": "workspace:*",
     "@webuy/typescript-config": "workspace:*",
+    "eslint": "^9.28.0",
+    "jsdom": "^26.1.0",
     "postcss": "^8.5.3",
     "tailwindcss": "^4.3.5",
     "typescript": "^5.8.3",
-    "vite": "^6.3.5"
+    "vite": "^6.3.5",
+    "vitest": "^3.2.4"
   }
 }

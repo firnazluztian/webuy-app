@@ -9,5 +9,10 @@ coverage
 .env
 .env.*
 !.env.example
+!**/.env.example
 .DS_Store
 *.tsbuildinfo
+
+# Local-only agent skills (showcase / personal). Keep docs/skills/README.md.
+docs/skills/**
+!docs/skills/README.md
