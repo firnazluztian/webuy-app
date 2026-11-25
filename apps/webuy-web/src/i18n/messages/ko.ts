@@ -1,0 +1,93 @@
+import type { Messages } from '../types';
+
+const ko: Messages = {
+  shell: {
+    brand: 'WeBuy',
+    searchPlaceholder: '상품 검색…',
+    cart: '장바구니',
+    account: '계정',
+    login: '로그인',
+    logout: '로그아웃',
+    language: '언어',
+    home: '홈',
+    footerTagline: '싱가포르, 한국, 인도네시아에서 필요한 상품을 쇼핑하세요.',
+    footerRights: '© WeBuy. All rights reserved.',
+  },
+  home: {
+    heroTitle: '필요한 상품을 찾아보세요',
+    heroSubtitle: '엄선된 상품과 빠른 결제 — 언제든 마켓을 전환하세요.',
+    featuredHeading: '추천 상품',
+    shopNow: '쇼핑하기',
+    emptyFeatured: '추천 상품이 없습니다.',
+  },
+  search: {
+    title: '검색',
+    resultsFor: '검색 결과',
+    empty: '검색과 일치하는 상품이 없습니다.',
+    loading: '검색 중…',
+    error: '검색에 실패했습니다. 다시 시도하세요.',
+  },
+  product: {
+    addToCart: '장바구니에 담기',
+    added: '장바구니에 담았습니다',
+    backToSearch: '검색으로 돌아가기',
+    notFound: '상품을 찾을 수 없습니다.',
+    loading: '상품 불러오는 중…',
+  },
+  cart: {
+    title: '장바구니',
+    empty: '장바구니가 비어 있습니다.',
+    quantity: '수량',
+    subtotal: '소계',
+    checkout: '결제하기',
+    remove: '삭제',
+    continueShopping: '쇼핑 계속하기',
+  },
+  auth: {
+    loginTitle: '로그인',
+    email: '이메일',
+    password: '비밀번호',
+    submit: '로그인',
+    error: '로그인할 수 없습니다. 다시 시도해 주세요.',
+    subtitle: '주문 및 계정 정보에 접근하세요.',
+  },
+  account: {
+    title: '내 계정',
+    greeting: '로그인 계정',
+    profileHint: '프로필과 쇼핑 환경을 관리하세요.',
+  },
+  checkout: {
+    title: '결제',
+    name: '이름',
+    address: '주소',
+    city: '도시',
+    placeOrder: '주문하기',
+    emptyCart: '결제 전에 상품을 담아주세요.',
+    errors: {
+      nameRequired: '이름을 입력해 주세요.',
+      addressRequired: '주소를 입력해 주세요.',
+      cityRequired: '도시를 입력해 주세요.',
+    },
+  },
+  payment: {
+    processing: '결제 처리 중…',
+    successTitle: '결제 완료',
+    successBody: '주문이 확인되었습니다. WeBuy를 이용해 주셔서 감사합니다.',
+    viewOrder: '주문 보기',
+    failedTitle: '결제 실패',
+  },
+  order: {
+    title: '주문',
+    status: '상태',
+    total: '합계',
+    backHome: '홈으로',
+    notFound: '주문을 찾을 수 없습니다.',
+  },
+  common: {
+    loading: '로딩 중…',
+    error: '문제가 발생했습니다.',
+    retry: '다시 시도',
+  },
+};
+
+export default ko;

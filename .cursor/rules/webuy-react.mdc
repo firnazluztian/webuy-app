@@ -7,6 +7,19 @@ alwaysApply: false
 # WeBuy React patterns
 
 - Feature modules over flat component dumps as domains grow.
+- **Feature layout (required):**
+  ```text
+  features/<domain>/
+    index.tsx              # page/section UI (named export)
+    types.ts | schema.ts | constants.ts   # as needed
+    hooks/use-*.ts         # logic only
+    components/<name>/
+      index.tsx            # nested UI (named export)
+      hooks/               # logic for that component
+  ```
+- Separate UI from logic: thin `index.tsx`, hooks own data/side effects.
+- Always `export const ComponentName` — never `export default` in `features/` or shared `components/` (Next `app/` pages/layouts are the exception).
+- Keep files ≤ **500** lines (ESLint `max-lines`).
 - Colocate component + hook when the hook serves one UI; promote to shared only when reused.
 - Prefer server components / server data on the storefront when they fit; use TanStack Query for client cache needs.
 - Zustand for light client UI/session state — not a second server cache.

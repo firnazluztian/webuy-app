@@ -32,6 +32,10 @@ export const baseConfig = [
       'prefer-const': 'error',
       'no-var': 'error',
       eqeqeq: ['error', 'smart'],
+      'max-lines': [
+        'error',
+        { max: 500, skipBlankLines: true, skipComments: true },
+      ],
       '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-unused-vars': [
         'error',
@@ -44,6 +48,22 @@ export const baseConfig = [
       '@typescript-eslint/consistent-type-imports': [
         'error',
         { prefer: 'type-imports', fixStyle: 'separate-type-imports' },
+      ],
+    },
+  },
+  {
+    // Feature / shared UI modules: named exports only (`export const X`).
+    // Next.js `app/` routes still require default exports for pages/layouts.
+    files: ['**/features/**/*.{ts,tsx}', '**/components/**/*.{ts,tsx}'],
+    ignores: ['**/app/**'],
+    rules: {
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: 'ExportDefaultDeclaration',
+          message:
+            'Use named exports (`export const Component`) in features/components. Default exports are reserved for Next.js app routes.',
+        },
       ],
     },
   },

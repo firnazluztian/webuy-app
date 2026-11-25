@@ -41,6 +41,9 @@ If the answer is already in the repo or `docs/`, use that — do not re-ask. If 
 - **Start simple.** Ship the smallest correct design. Add abstraction only when duplication or change pressure is real.
 - **Think outside the box** when a simpler topology beats a fashionable pattern (composition over new packages, server data over client caches when enough, etc.).
 - **Separation of concerns.** Prefer `UI components` + `hooks` / services. Keep rendering thin; put data fetching, derived state, and side effects in hooks or shared modules.
+- **Feature folder shape:** `features/<domain>/index.tsx` (UI) + `hooks/` + optional `types.ts` / `schema.ts` / `constants.ts` + `components/<name>/index.tsx` (nested UI with its own `hooks/` when needed).
+- **Named exports only** in features/components (`export const Checkout`). Default exports are reserved for Next.js `app/` routes.
+- **File size:** max **500** lines per file (ESLint `max-lines`).
 - **Clean code.** Readable names, shallow nesting, no clever one-liners. A senior should understand a file in under 30 seconds.
 - **Feature-based layout** as domains grow: `catalog`, `search`, `cart`, `checkout`, `account`, `content` (web); admin domains under `bo`.
 - **Strict TypeScript.** Avoid `any`. Prefer interfaces for models; types for unions/fns.

@@ -14,6 +14,7 @@ Each ADR includes status, date, context, decision, consequences, and alternative
 | [0002](./0002-shared-kiichan-catalog-pin.md) | Single kiichan design-system pin via pnpm catalog | Accepted |
 | [0003](./0003-eslint-quality-gates.md) | Shared ESLint + public-env build guard | Accepted |
 | [0004](./0004-unit-test-precommit.md) | Unit tests on pre-commit (Husky + lint-staged) | Accepted |
+| [0005](./0005-mock-api-before-supabase.md) | Mock Route Handlers before Supabase | Accepted |
 
 ## Related
 

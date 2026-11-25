@@ -1,0 +1,93 @@
+import type { Messages } from '../types';
+
+const id: Messages = {
+  shell: {
+    brand: 'WeBuy',
+    searchPlaceholder: 'Cari produk…',
+    cart: 'Keranjang',
+    account: 'Akun',
+    login: 'Masuk',
+    logout: 'Keluar',
+    language: 'Bahasa',
+    home: 'Beranda',
+    footerTagline: 'Belanja kebutuhan di Singapura, Korea, dan Indonesia.',
+    footerRights: '© WeBuy. Hak cipta dilindungi.',
+  },
+  home: {
+    heroTitle: 'Temukan yang Anda butuhkan',
+    heroSubtitle: 'Produk pilihan dengan checkout cepat — ganti pasar kapan saja.',
+    featuredHeading: 'Unggulan',
+    shopNow: 'Belanja sekarang',
+    emptyFeatured: 'Belum ada produk unggulan.',
+  },
+  search: {
+    title: 'Pencarian',
+    resultsFor: 'Hasil untuk',
+    empty: 'Tidak ada produk yang cocok.',
+    loading: 'Mencari…',
+    error: 'Pencarian gagal. Coba lagi.',
+  },
+  product: {
+    addToCart: 'Tambah ke keranjang',
+    added: 'Ditambahkan ke keranjang',
+    backToSearch: 'Kembali ke pencarian',
+    notFound: 'Produk tidak ditemukan.',
+    loading: 'Memuat produk…',
+  },
+  cart: {
+    title: 'Keranjang Anda',
+    empty: 'Keranjang kosong.',
+    quantity: 'Jml',
+    subtotal: 'Subtotal',
+    checkout: 'Checkout',
+    remove: 'Hapus',
+    continueShopping: 'Lanjut belanja',
+  },
+  auth: {
+    loginTitle: 'Masuk',
+    email: 'Email',
+    password: 'Kata sandi',
+    submit: 'Masuk',
+    error: 'Tidak dapat masuk. Silakan coba lagi.',
+    subtitle: 'Akses pesanan dan detail akun Anda.',
+  },
+  account: {
+    title: 'Akun Anda',
+    greeting: 'Masuk sebagai',
+    profileHint: 'Kelola profil dan preferensi belanja Anda.',
+  },
+  checkout: {
+    title: 'Checkout',
+    name: 'Nama lengkap',
+    address: 'Alamat',
+    city: 'Kota',
+    placeOrder: 'Buat pesanan',
+    emptyCart: 'Tambahkan item sebelum checkout.',
+    errors: {
+      nameRequired: 'Masukkan nama lengkap Anda.',
+      addressRequired: 'Masukkan alamat Anda.',
+      cityRequired: 'Masukkan kota Anda.',
+    },
+  },
+  payment: {
+    processing: 'Memproses pembayaran…',
+    successTitle: 'Pembayaran berhasil',
+    successBody: 'Pesanan Anda dikonfirmasi. Terima kasih berbelanja di WeBuy.',
+    viewOrder: 'Lihat pesanan',
+    failedTitle: 'Pembayaran gagal',
+  },
+  order: {
+    title: 'Pesanan',
+    status: 'Status',
+    total: 'Total',
+    backHome: 'Kembali ke beranda',
+    notFound: 'Pesanan tidak ditemukan.',
+  },
+  common: {
+    loading: 'Memuat…',
+    error: 'Terjadi kesalahan.',
+    retry: 'Coba lagi',
+  },
+};
+
+export default id;
