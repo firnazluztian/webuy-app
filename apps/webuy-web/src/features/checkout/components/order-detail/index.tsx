@@ -3,12 +3,13 @@
 import Link from 'next/link';
 import { useLocalOrder } from '@/features/checkout/hooks/use-local-order';
 import type { OrderDetailProps } from '@/features/checkout/types';
+import { useFormatMoney } from '@/features/shell/hooks/use-format-money';
 import { useTranslations } from '@/features/shell/hooks/use-translations';
-import { formatMoney } from '@/i18n/markets';
 
 export const OrderDetail = ({ locale, orderId }: OrderDetailProps) => {
   const t = useTranslations(locale);
   const order = useLocalOrder(orderId);
+  const { format } = useFormatMoney();
 
   if (order === undefined) {
     return <p className="text-sm text-neutral-600">{t.common.loading}</p>;
@@ -39,12 +40,12 @@ export const OrderDetail = ({ locale, orderId }: OrderDetailProps) => {
             <span>
               {item.title} × {item.quantity}
             </span>
-            <span>{formatMoney(item.unitPrice * item.quantity, locale)}</span>
+            <span>{format(item.unitPrice * item.quantity)}</span>
           </li>
         ))}
       </ul>
       <p className="text-lg font-medium">
-        {t.order.total}: {formatMoney(order.baseTotal, locale)}
+        {t.order.total}: {format(order.baseTotal)}
       </p>
       <Link href={`/${locale}`} className="text-primary underline">
         {t.order.backHome}

@@ -15,6 +15,6 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 ## App-specific
 
 - Port **3000**. Package name `@webuy/web`.
-- Design system: `@kiichan/design-system` (catalog pin).
+- Design system: `@kiichan/design-system` (catalog pin). Do not set `size` / `rounded` unless asked.
 - Unit tests: Vitest (`pnpm test` from app or root).
 - Lint: ESLint flat config via `@webuy/eslint-config/next`.

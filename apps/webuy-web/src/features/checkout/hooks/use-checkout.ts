@@ -10,6 +10,7 @@ import {
   type CheckoutFormValues,
   type LocalOrder,
 } from '@/features/checkout/schema';
+import { useMarketStore } from '@/features/shell/hooks/use-market-store';
 import { convertFromBase, getMarket } from '@/i18n/markets';
 import type { Locale } from '@/i18n/types';
 import { trackPurchase } from '@/lib/gtm';
@@ -27,6 +28,7 @@ export function useCheckout(locale: Locale) {
   const lines = useCartStore((state) => state.lines);
   const subtotalBase = useCartStore((state) => state.subtotalBase());
   const clear = useCartStore((state) => state.clear);
+  const marketId = useMarketStore((state) => state.marketId);
   const [pending, setPending] = useState(false);
   const [fieldErrors, setFieldErrors] = useState<CheckoutFieldErrors>({});
 
@@ -62,12 +64,12 @@ export function useCheckout(locale: Locale) {
 
     setFieldErrors({});
     setPending(true);
-    const market = getMarket(locale);
+    const market = getMarket(marketId);
     const order: LocalOrder = {
       id: `ord-${Date.now().toString(36)}`,
       status: 'success',
       currency: market.currency,
-      amount: convertFromBase(subtotalBase, locale),
+      amount: convertFromBase(subtotalBase, marketId),
       baseTotal: subtotalBase,
       locale,
       customerName: parsed.data.customerName,

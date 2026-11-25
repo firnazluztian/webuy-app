@@ -2,6 +2,7 @@ export const queryKeys = {
   products: {
     all: ['products'] as const,
     featured: ['products', 'featured'] as const,
+    hero: ['products', 'hero'] as const,
     detail: (id: string) => ['products', id] as const,
   },
   search: (q: string) => ['search', q] as const,

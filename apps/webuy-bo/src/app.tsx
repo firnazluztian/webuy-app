@@ -34,7 +34,7 @@ const Dashboard = ({ onLogout }: { onLogout: () => void }) => {
               </button>
             </nav>
           </div>
-          <Button type="button" variant="primary" size="md" rounded="xl" onClick={onLogout}>
+          <Button type="button" variant="primary" onClick={onLogout}>
             Sign out
           </Button>
         </div>

@@ -1,122 +1,192 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
-import type { FormEvent } from 'react';
-import { useState } from 'react';
-import { Button, Input, Select } from '@kiichan/design-system';
-import { useCartStore } from '@/features/cart/hooks/use-cart-store';
-import { useTranslations } from '@/features/shell/hooks/use-translations';
-import { locales } from '@/i18n/config';
-import { markets } from '@/i18n/markets';
-import type { Locale } from '@/i18n/types';
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import type { FormEvent } from "react";
+import { useState } from "react";
+import { Button, Icon, Input } from "@kiichan/design-system";
+import { useSession } from "@/features/account/hooks/use-session";
+import { useCartStore } from "@/features/cart/hooks/use-cart-store";
+import { MarketDialog } from "@/features/shell/components/market-dialog";
+import { useMarketStore } from "@/features/shell/hooks/use-market-store";
+import { useTranslations } from "@/features/shell/hooks/use-translations";
+import { localeFlagIcons } from "@/i18n/config";
+import { getMarket } from "@/i18n/markets";
+import type { Locale } from "@/i18n/types";
 
-function swapLocale(pathname: string, next: Locale): string {
-  const parts = pathname.split('/');
-  if (parts.length > 1) {
-    parts[1] = next;
-  }
-  return parts.join('/') || `/${next}`;
-}
+const BottomTab = ({
+  icon,
+  label,
+  onClick,
+  badge,
+}: {
+  icon: string;
+  label: string;
+  onClick: () => void;
+  badge?: number;
+}) => (
+  <Button
+    type="button"
+    variant="ghost"
+    onClick={onClick}
+    className="h-auto min-w-0 flex-1 px-1 py-2 text-neutral-600 hover:bg-transparent hover:text-primary active:text-primary"
+    aria-label={label}
+  >
+    <span className="flex w-full flex-col items-center justify-center gap-1 text-center">
+      <span className="relative inline-flex items-center justify-center">
+        <Icon icon={icon} className="h-5 w-5" />
+        {badge !== undefined && badge > 0 ? (
+          <span className="absolute -right-2.5 -top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-secondary px-1 text-[10px] font-semibold leading-none text-dark">
+            {badge > 99 ? "99+" : badge}
+          </span>
+        ) : null}
+      </span>
+      <span className="max-w-full truncate text-[10px] font-medium leading-tight tracking-wide uppercase">
+        {label}
+      </span>
+    </span>
+  </Button>
+);
 
 export const Topbar = ({ locale }: { locale: Locale }) => {
   const t = useTranslations(locale);
-  const pathname = usePathname();
   const router = useRouter();
+  const session = useSession();
   const qty = useCartStore((state) => state.totalQuantity());
-  const [query, setQuery] = useState('');
-
-  const marketOptions = locales.map((code) => ({
-    value: code,
-    label: markets[code].label,
-  }));
+  const marketId = useMarketStore((state) => state.marketId);
+  const market = getMarket(marketId);
+  const [query, setQuery] = useState("");
+  const [marketOpen, setMarketOpen] = useState(false);
 
   function onSearch(event: FormEvent) {
     event.preventDefault();
     const q = query.trim();
-    router.push(q ? `/${locale}/search?q=${encodeURIComponent(q)}` : `/${locale}/search`);
+    router.push(
+      q ? `/${locale}/search?q=${encodeURIComponent(q)}` : `/${locale}/search`,
+    );
   }
 
+  const isSignedIn = Boolean(session.data);
+  const authHref = isSignedIn ? `/${locale}/account` : `/${locale}/login`;
+  const authLabel = session.data
+    ? `${t.shell.hi} ${session.data.firstName}`
+    : t.shell.login;
+  const languageFlag = localeFlagIcons[locale];
+  const marketLabel = `${market.label} · ${market.currency}`;
+  const cartLabel = qty > 0 ? `${t.shell.cart} (${qty})` : t.shell.cart;
+
   return (
-    <header className="sticky top-0 z-40 border-b border-neutral-200 bg-light/95 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:gap-4">
-        <div className="flex items-center justify-between gap-3">
-          <Link href={`/${locale}`} className="text-xl font-semibold tracking-tight text-primary">
-            {t.shell.brand}
-          </Link>
-          <div className="flex items-center gap-2 sm:hidden">
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              rounded="xl"
-              onClick={() => router.push(`/${locale}/cart`)}
+    <>
+      <header className="sticky top-0 z-40 border-b border-light/10 bg-dark/95 text-light backdrop-blur-xl">
+        <div className="mx-auto max-w-6xl px-4">
+          {/* Desktop */}
+          <div className="hidden h-16 items-center gap-8 sm:grid sm:grid-cols-[auto_minmax(0,1fr)_auto]">
+            <Link
+              href={`/${locale}`}
+              className="shrink-0 text-lg font-semibold tracking-[0.22em] uppercase text-light"
             >
-              {t.shell.cart}
-              {qty > 0 ? ` (${qty})` : ''}
-            </Button>
+              {t.shell.brand}
+            </Link>
+
+            <form onSubmit={onSearch} className="min-w-0">
+              <Input
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder={t.shell.searchPlaceholder}
+                aria-label={t.shell.searchPlaceholder}
+                leftIcon="mdi:magnify"
+                fullWidth
+              />
+            </form>
+
+            <nav className="flex items-center gap-2">
+              <Button
+                type="button"
+                variant="ghost"
+                leftIcon={languageFlag}
+                aria-label={t.shell.language}
+                isIconOnly
+                onClick={() => setMarketOpen(true)}
+              />
+              <Button
+                type="button"
+                variant="ghost"
+                leftIcon="mdi:cart-outline"
+                className="text-white hover:text-primary"
+                aria-label={cartLabel}
+                isIconOnly
+                onClick={() => router.push(`/${locale}/cart`)}
+              />
+              <Button type="button" onClick={() => router.push(authHref)}>
+                {authLabel}
+              </Button>
+            </nav>
+          </div>
+
+          {/* Mobile top */}
+          <div className="flex flex-col gap-3 py-3 sm:hidden">
+            <div className="flex items-center justify-between gap-3">
+              <Link
+                href={`/${locale}`}
+                className="text-base font-semibold tracking-[0.2em] uppercase text-light"
+              >
+                {t.shell.brand}
+              </Link>
+              <Button
+                type="button"
+                variant="outline"
+                className="text-white"
+                leftIcon={languageFlag}
+                aria-label={t.shell.language}
+                onClick={() => setMarketOpen(true)}
+              >
+                {marketLabel}
+              </Button>
+            </div>
+            <form onSubmit={onSearch} className="min-w-0">
+              <Input
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder={t.shell.searchPlaceholder}
+                aria-label={t.shell.searchPlaceholder}
+                leftIcon="mdi:magnify"
+                fullWidth
+              />
+            </form>
           </div>
         </div>
+      </header>
 
-        <form onSubmit={onSearch} className="flex flex-1 items-center gap-2">
-          <div className="min-w-0 flex-1">
-            <Input
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder={t.shell.searchPlaceholder}
-              aria-label={t.shell.searchPlaceholder}
-              rounded="xl"
-              size="md"
-            />
-          </div>
-          <Button type="submit" variant="primary" size="md" rounded="xl">
-            {t.search.title}
-          </Button>
-        </form>
-
-        <nav className="flex flex-wrap items-center gap-2">
-          <Select
-            aria-label={t.shell.language}
-            options={marketOptions}
-            value={locale}
-            onChange={(value) => {
-              router.push(swapLocale(pathname, value as Locale));
-            }}
-            size="sm"
-            rounded="xl"
+      <nav
+        className="fixed inset-x-0 bottom-0 z-40 bg-light sm:hidden opacity-90 rounded-t-2xl"
+        style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
+        aria-label={t.shell.brand}
+      >
+        <div className="mx-auto flex max-w-6xl items-stretch justify-between px-1 py-2">
+          <BottomTab
+            icon={languageFlag}
+            label={t.shell.market}
+            onClick={() => setMarketOpen(true)}
           />
-          <div className="hidden sm:contents">
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              rounded="xl"
-              onClick={() => router.push(`/${locale}/account`)}
-            >
-              {t.shell.account}
-            </Button>
-            <Button
-              type="button"
-              variant="outline-primary"
-              size="sm"
-              rounded="xl"
-              onClick={() => router.push(`/${locale}/cart`)}
-            >
-              {t.shell.cart}
-              {qty > 0 ? ` (${qty})` : ''}
-            </Button>
-          </div>
-          <Button
-            type="button"
-            variant="primary"
-            size="sm"
-            rounded="xl"
-            onClick={() => router.push(`/${locale}/login`)}
-          >
-            {t.shell.login}
-          </Button>
-        </nav>
-      </div>
-    </header>
+          <BottomTab
+            icon="mdi:cart-outline"
+            label={t.shell.cart}
+            badge={qty}
+            onClick={() => router.push(`/${locale}/cart`)}
+          />
+          <BottomTab
+            icon={isSignedIn ? "mdi:account-outline" : "mdi:login"}
+            label={authLabel}
+            onClick={() => router.push(authHref)}
+          />
+        </div>
+      </nav>
+
+      <MarketDialog
+        locale={locale}
+        isOpen={marketOpen}
+        onClose={() => setMarketOpen(false)}
+      />
+    </>
   );
 };

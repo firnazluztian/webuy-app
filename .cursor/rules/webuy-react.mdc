@@ -26,3 +26,4 @@ alwaysApply: false
 - Strict TypeScript; no `any` without a written justification in the PR.
 - Loading / empty / error states are required for user-facing async UI.
 - Reuse `@webuy/tailwind-config` tokens; avoid one-off color hex when a token exists.
+- On `@kiichan/design-system` components: never set `size` or `rounded` unless the requester explicitly requests them.

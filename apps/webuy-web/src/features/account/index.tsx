@@ -23,8 +23,6 @@ export const Account = ({ locale }: { locale: Locale }) => {
         <Button
           type="button"
           variant="primary"
-          size="md"
-          rounded="xl"
           onClick={() => router.push(`/${locale}/login`)}
         >
           {t.shell.login}
@@ -52,8 +50,6 @@ export const Account = ({ locale }: { locale: Locale }) => {
       <Button
         type="button"
         variant="primary"
-        size="md"
-        rounded="xl"
         onClick={() => {
           logout.mutate(undefined, {
             onSuccess: () => router.push(`/${locale}/login`),

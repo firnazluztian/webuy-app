@@ -21,7 +21,9 @@ export default async function LocaleLayout({
     <AppProviders>
       <div className="flex min-h-screen flex-col">
         <Topbar locale={locale} />
-        <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">{children}</main>
+        <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 pb-24 sm:pb-8">
+          {children}
+        </main>
         <Footer locale={locale} />
       </div>
     </AppProviders>

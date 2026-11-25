@@ -3,12 +3,13 @@
 import Link from 'next/link';
 import { useLocalOrder } from '@/features/checkout/hooks/use-local-order';
 import type { PaymentResultProps } from '@/features/checkout/types';
+import { useFormatMoney } from '@/features/shell/hooks/use-format-money';
 import { useTranslations } from '@/features/shell/hooks/use-translations';
-import { formatMoney } from '@/i18n/markets';
 
 export const PaymentResult = ({ locale, orderId }: PaymentResultProps) => {
   const t = useTranslations(locale);
   const order = useLocalOrder(orderId);
+  const { format } = useFormatMoney();
 
   if (order === undefined) {
     return <p className="text-sm text-neutral-600">{t.payment.processing}</p>;
@@ -33,7 +34,7 @@ export const PaymentResult = ({ locale, orderId }: PaymentResultProps) => {
         {t.order.title} {order.id}
       </p>
       <p className="text-lg font-medium">
-        {t.order.total}: {formatMoney(order.baseTotal, locale)}
+        {t.order.total}: {format(order.baseTotal)}
       </p>
       <Link href={`/${locale}/orders/${order.id}`} className="text-primary underline">
         {t.payment.viewOrder}

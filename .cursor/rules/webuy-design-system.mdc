@@ -1,0 +1,15 @@
+---
+description: Kiichan design-system usage — never invent size/rounded tokens
+alwaysApply: true
+---
+
+# WeBuy design-system props
+
+When using `@kiichan/design-system` components (`Button`, `Input`, `Select`, `Dialog`, etc.):
+
+- **Always** use DS primitives for interactive UI (`Button`, `Input`, `Select`, etc.). Do **not** hand-roll native `<button>` / `<input>` / selects for the same job unless the requester explicitly says not to use the design system.
+- **Never** set `size` or `rounded` props. Omit them so DS defaults apply.
+- Do **not** invent sizing or radius values (`sm` / `md` / `lg` / `xl` / …) unless the requester explicitly asks for a specific size or radius.
+- Prefer `variant`, `fullWidth`, labels, and behavior props. Leave visual scale/radius to the design system (or to a human follow-up).
+
+This applies to all apps (`web`, `bo`) and any agent writing UI.

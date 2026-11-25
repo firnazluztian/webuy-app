@@ -12,6 +12,14 @@ export function useFeaturedProducts() {
   });
 }
 
+export function useHeroProducts() {
+  return useQuery({
+    queryKey: queryKeys.products.hero,
+    queryFn: () => fetchProducts(5, 0),
+    staleTime: staleTimes.products,
+  });
+}
+
 export function useProduct(id: string) {
   return useQuery({
     queryKey: queryKeys.products.detail(id),

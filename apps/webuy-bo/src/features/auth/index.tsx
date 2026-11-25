@@ -52,8 +52,6 @@ export const Login = ({ onLogin }: LoginProps) => {
               setFieldErrors((current) => ({ ...current, email: undefined }));
             }}
             placeholder="you@webuy.com"
-            rounded="xl"
-            size="md"
             error={Boolean(fieldErrors.email)}
             errorText={fieldErrors.email}
             required
@@ -70,8 +68,6 @@ export const Login = ({ onLogin }: LoginProps) => {
               setFieldErrors((current) => ({ ...current, password: undefined }));
             }}
             placeholder="••••••••"
-            rounded="xl"
-            size="md"
             error={Boolean(fieldErrors.password)}
             errorText={fieldErrors.password}
             required
@@ -81,7 +77,7 @@ export const Login = ({ onLogin }: LoginProps) => {
             <p className="text-sm text-red-600">Unable to sign in. Check your credentials.</p>
           ) : null}
 
-          <Button type="submit" variant="primary" size="md" rounded="xl">
+          <Button type="submit" variant="primary">
             Sign in
           </Button>
         </form>

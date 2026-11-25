@@ -51,7 +51,7 @@ Ship a complete guest → checkout journey on the storefront, plus a thin Englis
 
 ```text
 /[locale] → search → PDP → cart → login? → checkout → payment success → account
-     ↕ locale switcher (language + currency together)
+     ↕ language (URL)  ·  ship-to / currency (client market preference)
 ```
 
 ## Data layer
@@ -63,7 +63,7 @@ Ship a complete guest → checkout journey on the storefront, plus a thin Englis
 | BO auth | Hardcoded credentials | Real admin IdP |
 | Payment | Always `success` locally | Payment provider webhooks |
 | FX | Static multipliers from catalog base price | Live rates or market price lists |
-| Locale = market | 1:1 for speed | Split language vs ship-to country |
+| Locale vs market | Language in URL; ship-to/currency in persisted market store | Live rates or market price lists |
 
 ## Architecture notes
 
@@ -71,7 +71,7 @@ Ship a complete guest → checkout journey on the storefront, plus a thin Englis
 - **Client state:** Zustand cart — not a second server cache
 - **RSC vs client:** Shell where cheap; Query for interactive catalog and auth
 - **i18n:** One file per locale + market row to add a language
-- **Money:** `Intl.NumberFormat`; markets bind locale to currency for this sprint
+- **Money:** `Intl.NumberFormat`; market store (ship-to) drives currency independently of UI language
 - **Observability:** GTM `dataLayer` with currency on funnel events
 
 ## Next sprint (candidates)

@@ -2,15 +2,23 @@ export type Locale = 'en' | 'ko' | 'id';
 
 export type CurrencyCode = 'SGD' | 'KRW' | 'IDR';
 
+export type MarketId = 'singapore' | 'south_korea' | 'indonesia';
+
 export interface Messages {
   shell: {
     brand: string;
     searchPlaceholder: string;
     cart: string;
     account: string;
+    hi: string;
     login: string;
     logout: string;
     language: string;
+    market: string;
+    shippingCountry: string;
+    currency: string;
+    saveMarket: string;
+    cancel: string;
     home: string;
     footerTagline: string;
     footerRights: string;

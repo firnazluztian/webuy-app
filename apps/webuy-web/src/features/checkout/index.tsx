@@ -6,13 +6,14 @@ import { useState } from 'react';
 import { Button, Input } from '@kiichan/design-system';
 import { useCheckout } from '@/features/checkout/hooks/use-checkout';
 import type { CheckoutProps } from '@/features/checkout/types';
+import { useFormatMoney } from '@/features/shell/hooks/use-format-money';
 import { useTranslations } from '@/features/shell/hooks/use-translations';
-import { formatMoney } from '@/i18n/markets';
 
 export const Checkout = ({ locale }: CheckoutProps) => {
   const t = useTranslations(locale);
   const { isEmpty, subtotalBase, pending, fieldErrors, clearFieldError, placeOrder } =
     useCheckout(locale);
+  const { format } = useFormatMoney();
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
@@ -23,7 +24,7 @@ export const Checkout = ({ locale }: CheckoutProps) => {
         <h1 className="text-3xl font-semibold">{t.checkout.title}</h1>
         <p className="text-neutral-600">{t.checkout.emptyCart}</p>
         <Link href={`/${locale}/cart`}>
-          <Button type="button" variant="outline-primary" size="md" rounded="xl">
+          <Button type="button" variant="outline-primary">
             {t.cart.title}
           </Button>
         </Link>
@@ -47,7 +48,7 @@ export const Checkout = ({ locale }: CheckoutProps) => {
     <div className="mx-auto flex w-full max-w-lg flex-col gap-6">
       <h1 className="text-3xl font-semibold">{t.checkout.title}</h1>
       <p className="text-neutral-700">
-        {t.cart.subtotal}: {formatMoney(subtotalBase, locale)}
+        {t.cart.subtotal}: {format(subtotalBase)}
       </p>
       <form className="flex flex-col gap-4" onSubmit={onSubmit} noValidate>
         <Input
@@ -60,8 +61,6 @@ export const Checkout = ({ locale }: CheckoutProps) => {
           }}
           error={Boolean(fieldErrors.customerName)}
           errorText={fieldErrors.customerName}
-          rounded="xl"
-          size="md"
           required
         />
         <Input
@@ -74,8 +73,6 @@ export const Checkout = ({ locale }: CheckoutProps) => {
           }}
           error={Boolean(fieldErrors.address)}
           errorText={fieldErrors.address}
-          rounded="xl"
-          size="md"
           required
         />
         <Input
@@ -88,15 +85,11 @@ export const Checkout = ({ locale }: CheckoutProps) => {
           }}
           error={Boolean(fieldErrors.city)}
           errorText={fieldErrors.city}
-          rounded="xl"
-          size="md"
           required
         />
         <Button
           type="submit"
           variant="primary"
-          size="md"
-          rounded="xl"
           disabled={pending}
           isLoading={pending}
         >

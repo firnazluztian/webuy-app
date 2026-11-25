@@ -6,8 +6,9 @@ import { useEffect, useState } from 'react';
 import { Button } from '@kiichan/design-system';
 import { useCartStore } from '@/features/cart/hooks/use-cart-store';
 import { useProduct } from '@/features/catalog/hooks/use-products';
+import { useFormatMoney } from '@/features/shell/hooks/use-format-money';
 import { useTranslations } from '@/features/shell/hooks/use-translations';
-import { convertFromBase, formatMoney, getMarket } from '@/i18n/markets';
+import { convertFromBase } from '@/i18n/markets';
 import type { Locale } from '@/i18n/types';
 import { trackAddToCart, trackViewItem } from '@/lib/gtm';
 
@@ -22,7 +23,7 @@ export const ProductDetail = ({
   const { data, isLoading, isError, refetch } = useProduct(productId);
   const addItem = useCartStore((state) => state.addItem);
   const [added, setAdded] = useState(false);
-  const currency = getMarket(locale).currency;
+  const { format, convert, currency, marketId } = useFormatMoney();
 
   useEffect(() => {
     if (!data) {
@@ -31,10 +32,10 @@ export const ProductDetail = ({
     trackViewItem({
       itemId: String(data.id),
       itemName: data.title,
-      value: convertFromBase(data.price, locale),
+      value: convertFromBase(data.price, marketId),
       currency,
     });
-  }, [currency, data, locale]);
+  }, [currency, data, marketId]);
 
   if (isLoading) {
     return <p className="text-sm text-neutral-600">{t.product.loading}</p>;
@@ -73,13 +74,11 @@ export const ProductDetail = ({
           {t.product.backToSearch}
         </Link>
         <h1 className="text-3xl font-semibold text-neutral-900">{data.title}</h1>
-        <p className="text-xl text-primary">{formatMoney(data.price, locale)}</p>
+        <p className="text-xl text-primary">{format(data.price)}</p>
         <p className="text-neutral-600">{data.description}</p>
         <Button
           type="button"
           variant="primary"
-          size="md"
-          rounded="xl"
           onClick={() => {
             addItem({
               productId: data.id,
@@ -90,7 +89,7 @@ export const ProductDetail = ({
             trackAddToCart({
               itemId: String(data.id),
               itemName: data.title,
-              value: convertFromBase(data.price, locale),
+              value: convert(data.price),
               currency,
             });
             setAdded(true);

@@ -6,8 +6,8 @@ import { useRouter } from 'next/navigation';
 import { Button, Input } from '@kiichan/design-system';
 import { useCartStore } from '@/features/cart/hooks/use-cart-store';
 import type { CartProps } from '@/features/cart/types';
+import { useFormatMoney } from '@/features/shell/hooks/use-format-money';
 import { useTranslations } from '@/features/shell/hooks/use-translations';
-import { convertFromBase, formatMoney, getMarket } from '@/i18n/markets';
 import { trackBeginCheckout } from '@/lib/gtm';
 
 export const Cart = ({ locale }: CartProps) => {
@@ -17,6 +17,7 @@ export const Cart = ({ locale }: CartProps) => {
   const setQuantity = useCartStore((state) => state.setQuantity);
   const removeItem = useCartStore((state) => state.removeItem);
   const subtotalBase = useCartStore((state) => state.subtotalBase());
+  const { format, convert, currency } = useFormatMoney();
 
   if (lines.length === 0) {
     return (
@@ -26,8 +27,6 @@ export const Cart = ({ locale }: CartProps) => {
         <Button
           type="button"
           variant="outline-primary"
-          size="md"
-          rounded="xl"
           onClick={() => router.push(`/${locale}`)}
         >
           {t.cart.continueShopping}
@@ -51,7 +50,7 @@ export const Cart = ({ locale }: CartProps) => {
                   {line.title}
                 </Link>
                 <p className="text-sm text-primary">
-                  {formatMoney(line.basePrice * line.quantity, locale)}
+                  {format(line.basePrice * line.quantity)}
                 </p>
               </div>
               <div className="flex flex-wrap items-center gap-3">
@@ -61,14 +60,10 @@ export const Cart = ({ locale }: CartProps) => {
                   label={t.cart.quantity}
                   value={line.quantity}
                   onChange={(event) => setQuantity(line.productId, Number(event.target.value))}
-                  size="sm"
-                  rounded="xl"
                 />
                 <Button
                   type="button"
                   variant="ghost"
-                  size="sm"
-                  rounded="xl"
                   onClick={() => removeItem(line.productId)}
                 >
                   {t.cart.remove}
@@ -80,17 +75,15 @@ export const Cart = ({ locale }: CartProps) => {
       </ul>
       <div className="flex items-center justify-between">
         <p className="text-lg font-medium">
-          {t.cart.subtotal}: {formatMoney(subtotalBase, locale)}
+          {t.cart.subtotal}: {format(subtotalBase)}
         </p>
         <Button
           type="button"
           variant="primary"
-          size="md"
-          rounded="xl"
           onClick={() => {
             trackBeginCheckout({
-              value: convertFromBase(subtotalBase, locale),
-              currency: getMarket(locale).currency,
+              value: convert(subtotalBase),
+              currency,
             });
             router.push(`/${locale}/checkout`);
           }}

@@ -1,8 +1,7 @@
-import type { CurrencyCode, Locale } from './types';
+import type { CurrencyCode, MarketId } from './types';
 
 export interface MarketConfig {
-  locale: Locale;
-  market: 'singapore' | 'south_korea' | 'indonesia';
+  id: MarketId;
   label: string;
   currency: CurrencyCode;
   intlLocale: string;
@@ -10,39 +9,44 @@ export interface MarketConfig {
   fxFromBase: number;
 }
 
-export const markets: Record<Locale, MarketConfig> = {
-  en: {
-    locale: 'en',
-    market: 'singapore',
-    label: 'Singapore (SGD)',
+export const marketIds = ['singapore', 'south_korea', 'indonesia'] as const satisfies readonly MarketId[];
+
+export const markets: Record<MarketId, MarketConfig> = {
+  singapore: {
+    id: 'singapore',
+    label: 'Singapore',
     currency: 'SGD',
     intlLocale: 'en-SG',
     fxFromBase: 1.35,
   },
-  ko: {
-    locale: 'ko',
-    market: 'south_korea',
-    label: '한국 (KRW)',
+  south_korea: {
+    id: 'south_korea',
+    label: 'South Korea',
     currency: 'KRW',
     intlLocale: 'ko-KR',
     fxFromBase: 1350,
   },
-  id: {
-    locale: 'id',
-    market: 'indonesia',
-    label: 'Indonesia (IDR)',
+  indonesia: {
+    id: 'indonesia',
+    label: 'Indonesia',
     currency: 'IDR',
     intlLocale: 'id-ID',
     fxFromBase: 16_000,
   },
 };
 
-export function getMarket(locale: Locale): MarketConfig {
-  return markets[locale];
+export const defaultMarketId: MarketId = 'singapore';
+
+export function isMarketId(value: string): value is MarketId {
+  return (marketIds as readonly string[]).includes(value);
 }
 
-export function convertFromBase(amountBase: number, locale: Locale): number {
-  const { fxFromBase, currency } = getMarket(locale);
+export function getMarket(marketId: MarketId): MarketConfig {
+  return markets[marketId];
+}
+
+export function convertFromBase(amountBase: number, marketId: MarketId): number {
+  const { fxFromBase, currency } = getMarket(marketId);
   const converted = amountBase * fxFromBase;
   if (currency === 'KRW' || currency === 'IDR') {
     return Math.round(converted);
@@ -53,9 +57,9 @@ export function convertFromBase(amountBase: number, locale: Locale): number {
 /** @deprecated Prefer convertFromBase — alias kept for gradual renames. */
 export const convertFromSgd = convertFromBase;
 
-export function formatMoney(amountBase: number, locale: Locale): string {
-  const market = getMarket(locale);
-  const value = convertFromBase(amountBase, locale);
+export function formatMoney(amountBase: number, marketId: MarketId): string {
+  const market = getMarket(marketId);
+  const value = convertFromBase(amountBase, marketId);
   return new Intl.NumberFormat(market.intlLocale, {
     style: 'currency',
     currency: market.currency,

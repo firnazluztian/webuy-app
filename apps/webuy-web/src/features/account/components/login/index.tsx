@@ -31,8 +31,6 @@ export const Login = ({ locale }: { locale: Locale }) => {
       <Button
         type="button"
         variant="primary"
-        size="md"
-        rounded="xl"
         disabled={login.isPending}
         isLoading={login.isPending}
         onClick={() => {

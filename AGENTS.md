@@ -32,7 +32,8 @@ If the answer is already in the repo or `docs/`, use that — do not re-ask. If 
 ## Design system (non-negotiable default)
 
 - Use **`@kiichan/design-system`** for UI primitives and patterns unless the requester explicitly says otherwise.
-- Do not reinvent Button, Input, Modal, etc. when kiichan already covers the need.
+- Do not reinvent Button, Input, Modal, etc. when kiichan already covers the need — no hand-rolled `<button>` / `<input>` for the same job unless told not to use the DS.
+- **Never** pass `size` or `rounded` on DS components unless the requester explicitly asks — omit them and use design-system defaults.
 - Tokens / Tailwind theme live in `@webuy/tailwind-config` — keep them aligned with the catalog pin ([ADR-0002](docs/adr/0002-shared-kiichan-catalog-pin.md)).
 - Both apps share **one** kiichan version via the pnpm catalog. Bump only in `pnpm-workspace.yaml`, then `pnpm install`.
 

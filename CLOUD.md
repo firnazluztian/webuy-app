@@ -12,6 +12,7 @@ Follow [AGENTS.md](AGENTS.md) in full. This file only adds **environment / CI / 
 ## Hard constraints
 
 - Default UI: `@kiichan/design-system` unless the task says otherwise.
+- Do not set `size` or `rounded` on DS components unless the requester explicitly asks.
 - Keep changes minimal and reviewable. No drive-by refactors.
 - Do not commit secrets, `.env` files, or weaken `scripts/check-public-env.mjs`.
 - Do not skip hooks (`--no-verify`) or disable ESLint rules globally to land a change.
