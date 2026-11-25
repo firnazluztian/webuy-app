@@ -16,7 +16,7 @@ Use a **pnpm + Turborepo product monorepo** with:
 - `apps/webuy-bo` — Vite + React backoffice (client-heavy admin)
 - `packages/*` — shared product packages (Tailwind preset, TS config; later API client / zod schemas)
 
-Treat the UI library as **out of band**: `@kiichan/design-system` is consumed via GitHub release tags, not as a workspace package. Cross-product design systems must not live inside a single product monorepo.
+Treat the UI library as **out of band**: `@kiichan/design-system` is consumed via GitHub release tags, not as a workspace package. Cross-product design systems must not live inside a single product monorepo. Within WeBuy, both apps share one pin via the pnpm catalog (see [ADR-0002](./0002-shared-kiichan-catalog-pin.md)).
 
 **Reject microfrontends** for WeBuy’s current team size and deploy model.
 

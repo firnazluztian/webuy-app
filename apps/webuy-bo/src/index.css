@@ -1,14 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+@import "@webuy/tailwind-config/theme.css";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Keep utility classes used inside the DS bundle. */
+@source "../../node_modules/@kiichan/design-system/dist";
 
 @layer base {
-  html {
-    font-family: 'Poppins', system-ui, sans-serif;
-  }
-
   body {
     @apply m-0 min-h-screen bg-neutral-50 text-dark antialiased;
   }

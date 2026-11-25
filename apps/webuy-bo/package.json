@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@iconify/react": "^6.0.4",
-    "@kiichan/design-system": "github:firnazluztian/my-design-system#v2.4.11",
+    "@kiichan/design-system": "catalog:",
     "@tanstack/react-query": "^5.75.6",
     "@webuy/tailwind-config": "workspace:*",
     "class-variance-authority": "^0.7.1",
@@ -22,13 +22,13 @@
     "tailwind-merge": "^3.7.1"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.5",
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.0",
     "@vitejs/plugin-react": "^4.5.0",
     "@webuy/typescript-config": "workspace:*",
-    "autoprefixer": "^10.4.21",
     "postcss": "^8.5.3",
-    "tailwindcss": "^3.4.17",
+    "tailwindcss": "^4.3.5",
     "typescript": "^5.8.3",
     "vite": "^6.3.5"
   }

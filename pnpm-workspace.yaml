@@ -2,7 +2,9 @@ packages:
   - "apps/*"
   - "packages/*"
 
+catalog:
+  "@kiichan/design-system": "github:firnazluztian/my-design-system#v3.0.0"
+
 allowBuilds:
   "@heroui/shared-utils": true
   esbuild: true
-

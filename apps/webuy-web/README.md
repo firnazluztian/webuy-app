@@ -6,7 +6,7 @@ WeBuy storefront — Next.js 16 App Router.
 
 - Dev server: **http://localhost:3000**
 - Single page: homepage with WeBuy brand + `@kiichan/design-system` `Button`
-- Tailwind 3 via `@webuy/tailwind-config` (not Tailwind 4)
+- Tailwind 4 via `@webuy/tailwind-config` (kiichan v3 tokens + General Sans)
 
 ## Commands
 
@@ -28,4 +28,4 @@ pnpm test
 
 - Future domains live under feature folders (`catalog`, `search`, `cart`, `checkout`, `account`, `content`).
 - Campaign/content pages use Next SSG instead of a separate Astro app (see ADR-0001).
-- Design system is pinned from GitHub — see root [README](../../README.md).
+- Design system version comes from the monorepo pnpm catalog — see root [README](../../README.md) and [ADR-0002](../../docs/adr/0002-shared-kiichan-catalog-pin.md).
