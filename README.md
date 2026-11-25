@@ -44,6 +44,17 @@ pnpm build
 pnpm test
 ```
 
+## Deploy & release (Vercel)
+
+Two Vercel projects, same Git repo, independent domains. Selective builds via `turbo-ignore`. Independent tags `web@x.y.z` / `bo@x.y.z` (not one monorepo version).
+
+```bash
+pnpm release:web:patch|minor|major   # on clean main
+pnpm release:bo:patch|minor|major
+```
+
+Full step-by-step (dashboard setup, rollback, what triggers which deploy): [docs/ops/0001-vercel-deploy-and-release.md](docs/ops/0001-vercel-deploy-and-release.md).
+
 ## Architecture decisions
 
 - [ADR-0001: Monorepo over microfrontends](docs/adr/0001-monorepo-over-microfrontends.md) — **Accepted**
