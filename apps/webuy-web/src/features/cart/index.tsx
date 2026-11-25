@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Button, Input } from '@kiichan/design-system';
+import { Button } from '@kiichan/design-system';
 import { useCartStore } from '@/features/cart/hooks/use-cart-store';
 import type { CartProps } from '@/features/cart/types';
 import { useFormatMoney } from '@/features/shell/hooks/use-format-money';
@@ -41,7 +41,7 @@ export const Cart = ({ locale }: CartProps) => {
       <ul className="flex flex-col gap-4">
         {lines.map((line) => (
           <li key={line.productId} className="flex gap-4 border-b border-neutral-200 pb-4">
-            <div className="relative aspect-square w-20 shrink-0 overflow-hidden bg-neutral-100">
+            <div className="relative aspect-square w-20 shrink-0 overflow-hidden bg-neutral-100 rounded-lg">
               <Image src={line.imageUrl} alt={line.title} fill className="object-cover" sizes="80px" />
             </div>
             <div className="flex flex-1 flex-col gap-2">
@@ -49,25 +49,39 @@ export const Cart = ({ locale }: CartProps) => {
                 <Link href={`/${locale}/products/${line.productId}`} className="font-medium">
                   {line.title}
                 </Link>
-                <p className="text-sm text-primary">
+                <p className="text-lg text-primary">
                   {format(line.basePrice * line.quantity)}
                 </p>
               </div>
               <div className="flex flex-wrap items-center gap-3">
-                <Input
-                  type="number"
-                  min={1}
-                  label={t.cart.quantity}
-                  value={line.quantity}
-                  onChange={(event) => setQuantity(line.productId, Number(event.target.value))}
-                />
+                <div className="flex items-center gap-1">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    isIconOnly
+                    leftIcon="mdi:chevron-left"
+                    aria-label={`${t.cart.quantity} -`}
+                    onClick={() =>
+                      setQuantity(line.productId, Math.max(1, line.quantity - 1))
+                    }
+                  />
+                  <p className="w-10 mx-auto text-center p-0 m-0">{line.quantity}</p>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    isIconOnly
+                    leftIcon="mdi:chevron-right"
+                    aria-label={`${t.cart.quantity} +`}
+                    onClick={() => setQuantity(line.productId, line.quantity + 1)}
+                  />
+                </div>
                 <Button
                   type="button"
                   variant="ghost"
+                  leftIcon="mdi:trash-can-outline"
+                  aria-label={t.cart.remove}
                   onClick={() => removeItem(line.productId)}
-                >
-                  {t.cart.remove}
-                </Button>
+                />
               </div>
             </div>
           </li>

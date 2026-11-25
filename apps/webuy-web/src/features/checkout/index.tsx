@@ -50,7 +50,7 @@ export const Checkout = ({ locale }: CheckoutProps) => {
       <p className="text-neutral-700">
         {t.cart.subtotal}: {format(subtotalBase)}
       </p>
-      <form className="flex flex-col gap-4" onSubmit={onSubmit} noValidate>
+      <form className="flex flex-col gap-4 w-full" onSubmit={onSubmit} noValidate>
         <Input
           label={t.checkout.name}
           name="customerName"
@@ -62,11 +62,13 @@ export const Checkout = ({ locale }: CheckoutProps) => {
           error={Boolean(fieldErrors.customerName)}
           errorText={fieldErrors.customerName}
           required
+          fullWidth
         />
         <Input
           label={t.checkout.address}
           name="address"
           value={address}
+          fullWidth
           onChange={(event) => {
             setAddress(event.target.value);
             clearFieldError('address');
@@ -78,6 +80,7 @@ export const Checkout = ({ locale }: CheckoutProps) => {
         <Input
           label={t.checkout.city}
           name="city"
+          fullWidth
           value={city}
           onChange={(event) => {
             setCity(event.target.value);

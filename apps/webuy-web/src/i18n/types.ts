@@ -22,6 +22,8 @@ export interface Messages {
     home: string;
     footerTagline: string;
     footerRights: string;
+    vinoveOpen: string;
+    vinoveTitle: string;
   };
   home: {
     heroTitle: string;
@@ -43,6 +45,22 @@ export interface Messages {
     backToSearch: string;
     notFound: string;
     loading: string;
+    brand: string;
+    category: string;
+    stock: string;
+    availability: string;
+    discount: string;
+    specifications: string;
+    sku: string;
+    weight: string;
+    dimensions: string;
+    shipping: string;
+    warranty: string;
+    returnPolicy: string;
+    minimumOrder: string;
+    tags: string;
+    reviews: string;
+    reviewsEmpty: string;
   };
   cart: {
     title: string;

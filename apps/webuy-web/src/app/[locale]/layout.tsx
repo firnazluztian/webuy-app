@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import type { ReactNode } from 'react';
-import { AppProviders, Footer, Topbar } from '@/features/shell';
+import { AppProviders, Footer, Topbar, VinoveFab } from '@/features/shell';
 import { isLocale } from '@/i18n/config';
 import type { Locale } from '@/i18n/types';
 
@@ -25,6 +25,7 @@ export default async function LocaleLayout({
           {children}
         </main>
         <Footer locale={locale} />
+        <VinoveFab locale={locale} />
       </div>
     </AppProviders>
   );

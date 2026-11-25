@@ -96,6 +96,7 @@ export const Topbar = ({ locale }: { locale: Locale }) => {
                 aria-label={t.shell.searchPlaceholder}
                 leftIcon="mdi:magnify"
                 fullWidth
+                className="text-dark"
               />
             </form>
 
@@ -108,15 +109,17 @@ export const Topbar = ({ locale }: { locale: Locale }) => {
                 isIconOnly
                 onClick={() => setMarketOpen(true)}
               />
+              
               <Button
                 type="button"
                 variant="ghost"
                 leftIcon="mdi:cart-outline"
                 className="text-white hover:text-primary"
                 aria-label={cartLabel}
-                isIconOnly
                 onClick={() => router.push(`/${locale}/cart`)}
-              />
+             >
+              {qty ? cartLabel : null}
+              </Button>
               <Button type="button" onClick={() => router.push(authHref)}>
                 {authLabel}
               </Button>

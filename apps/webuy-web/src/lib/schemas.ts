@@ -1,5 +1,19 @@
 import { z } from 'zod';
 
+export const productReviewSchema = z.object({
+  rating: z.number(),
+  comment: z.string(),
+  date: z.string(),
+  reviewerName: z.string(),
+  reviewerEmail: z.string().optional(),
+});
+
+export const productDimensionsSchema = z.object({
+  width: z.number(),
+  height: z.number(),
+  depth: z.number(),
+});
+
 export const productSchema = z.object({
   id: z.number(),
   title: z.string(),
@@ -12,6 +26,16 @@ export const productSchema = z.object({
   rating: z.number().optional(),
   stock: z.number().optional(),
   tags: z.array(z.string()).optional(),
+  discountPercentage: z.number().optional(),
+  availabilityStatus: z.string().optional(),
+  sku: z.string().optional(),
+  weight: z.number().optional(),
+  dimensions: productDimensionsSchema.optional(),
+  warrantyInformation: z.string().optional(),
+  shippingInformation: z.string().optional(),
+  returnPolicy: z.string().optional(),
+  minimumOrderQuantity: z.number().optional(),
+  reviews: z.array(productReviewSchema).optional(),
 });
 
 export const productsResponseSchema = z.object({
@@ -79,6 +103,7 @@ export const cartsResponseSchema = z.object({
 });
 
 export type Product = z.infer<typeof productSchema>;
+export type ProductReview = z.infer<typeof productReviewSchema>;
 export type User = z.infer<typeof userSchema>;
 export type AuthUser = z.infer<typeof authUserSchema>;
 export type Cart = z.infer<typeof cartSchema>;
