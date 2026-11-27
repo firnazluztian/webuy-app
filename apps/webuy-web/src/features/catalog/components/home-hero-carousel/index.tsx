@@ -19,13 +19,13 @@ export const HomeHeroCarousel = ({ locale }: { locale: Locale }) => {
 
   if (isLoading) {
     return (
-      <section className="-mx-4 aspect-[4/5] animate-pulse bg-neutral-100 sm:mx-0 sm:aspect-[21/9] sm:rounded-2xl" />
+      <section className="relative -mt-8 ml-[calc(50%-50vw)] h-[70vh] w-screen animate-pulse bg-neutral-100" />
     );
   }
 
   if (isError || !products.length) {
     return (
-      <section className="-mx-4 flex flex-col gap-4 bg-neutral-900 px-6 py-16 text-white sm:mx-0 sm:rounded-2xl sm:px-10">
+      <section className="relative -mt-8 ml-[calc(50%-50vw)] flex h-[70vh] w-screen flex-col justify-end gap-4 bg-neutral-900 px-6 py-16 text-white sm:px-10 md:px-14">
         <p className="text-sm font-medium uppercase tracking-[0.2em] text-primary-200">
           {t.shell.brand}
         </p>
@@ -48,13 +48,13 @@ export const HomeHeroCarousel = ({ locale }: { locale: Locale }) => {
 
   return (
     <section
-      className="group relative -mx-4 overflow-hidden bg-neutral-900 sm:mx-0 sm:rounded-2xl"
+      className="group relative -mt-8 ml-[calc(50%-50vw)] h-[70vh] w-screen overflow-hidden bg-neutral-900"
       onMouseEnter={pause}
       onMouseLeave={resume}
       aria-roledescription="carousel"
       aria-label={t.home.heroTitle}
     >
-      <div className="relative aspect-[4/5] w-full sm:aspect-[21/9]">
+      <div className="relative h-full w-full">
         {products.map((product, index) => {
           const image = product.images?.[0] ?? product.thumbnail;
           const isActive = index === activeIndex;

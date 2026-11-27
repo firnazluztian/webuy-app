@@ -2,6 +2,7 @@
 
 import { Skeleton, Text } from "@kiichan/design-system";
 import type { UIMessage } from "ai";
+import { useScrollOnSubmit } from "@/features/assistant/components/message-list/hooks/use-scroll-on-submit";
 import { UiBlockRenderer } from "@/features/assistant/components/ui-block-renderer";
 import { parseUiBlocks, type UiBlock } from "@/features/assistant/schema";
 import type { Locale } from "@/i18n/types";
@@ -15,6 +16,8 @@ interface MessageListProps {
   onSendMessage: (message: string) => void;
   disabled?: boolean;
   isBusy?: boolean;
+  /** Bumped by ChatPanel on every send so we pin to the latest post. */
+  scrollNonce?: number;
 }
 
 type PresentUiState =
@@ -111,7 +114,10 @@ export const MessageList = ({
   onSendMessage,
   disabled = false,
   isBusy = false,
+  scrollNonce = 0,
 }: MessageListProps) => {
+  const listRef = useScrollOnSubmit(scrollNonce, messages.length);
+
   if (messages.length === 0) {
     return (
       <div className="flex min-h-0 flex-1 items-center justify-center px-4 py-8">
@@ -125,7 +131,10 @@ export const MessageList = ({
   const lastMessage = messages[messages.length - 1];
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto px-4 py-4">
+    <div
+      ref={listRef}
+      className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto px-4 py-4"
+    >
       {messages.map((message) => {
         if (message.role === "user") {
           const text = extractText(message);

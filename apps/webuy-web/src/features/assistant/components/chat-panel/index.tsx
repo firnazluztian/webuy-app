@@ -38,6 +38,7 @@ export const ChatPanel = ({
   const router = useRouter();
   const session = useSession();
   const [input, setInput] = useState('');
+  const [scrollNonce, setScrollNonce] = useState(0);
 
   const isBusy = status === 'submitted' || status === 'streaming';
   const isSignedIn = Boolean(session.data);
@@ -54,6 +55,7 @@ export const ChatPanel = ({
     }
     onSendMessage(trimmed);
     setInput('');
+    setScrollNonce((value) => value + 1);
   };
 
   const handleNavigate = (href: string) => {
@@ -109,6 +111,7 @@ export const ChatPanel = ({
           onSendMessage={handleSend}
           disabled={isBusy}
           isBusy={isBusy}
+          scrollNonce={scrollNonce}
         />
       )}
 

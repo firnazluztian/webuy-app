@@ -12,14 +12,14 @@ const NavigationProgressBar = () => {
     <div
       key={routeKey}
       aria-hidden
-      className="pointer-events-none h-1 w-full overflow-hidden"
+      className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-1 w-full overflow-hidden"
     >
       <div className="navigation-progress-bar h-full origin-left bg-primary" />
     </div>
   );
 };
 
-/** Progress sweep rendered directly under the topbar on load and route change. */
+/** Progress sweep overlaid on the topbar bottom edge on load and route change. */
 export const NavigationProgress = () => (
   <Suspense fallback={null}>
     <NavigationProgressBar />

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { FormEvent } from "react";
 import { useState } from "react";
-import { Button, Icon, Input } from "@kiichan/design-system";
+import { Avatar, Button, Icon, Input } from "@kiichan/design-system";
 import { useSession } from "@/features/account/hooks/use-session";
 import { useCartHydrated } from "@/features/cart/hooks/use-cart-hydrated";
 import { useCartStore } from "@/features/cart/hooks/use-cart-store";
@@ -77,7 +77,8 @@ export const Topbar = ({ locale }: { locale: Locale }) => {
   const isSignedIn = Boolean(session.data);
   const authHref = isSignedIn ? `/${locale}/account/dashboard` : `/${locale}/login`;
   const authLabel = session.data
-    ? `${t.shell.hi} ${session.data.firstName}`
+    ? `${session.data.firstName} ${session.data.lastName}`.trim() ||
+      session.data.username
     : t.shell.login;
   const languageFlag = localeFlagIcons[locale];
   const marketLabel = `${market.label} · ${market.currency}`;
@@ -87,7 +88,7 @@ export const Topbar = ({ locale }: { locale: Locale }) => {
   return (
     <>
       <div className="sticky top-0 z-40">
-        <header className="border-b border-light/10 bg-dark/95 text-light backdrop-blur-xl">
+        <header className="relative border-b border-light/10 bg-dark/95 text-light backdrop-blur-xl">
           <div className="mx-auto max-w-6xl px-4">
             {/* Desktop */}
             <div className="hidden h-16 items-center gap-8 sm:grid sm:grid-cols-[auto_minmax(0,1fr)_auto]">
@@ -130,9 +131,28 @@ export const Topbar = ({ locale }: { locale: Locale }) => {
                 >
                   {safeQty ? cartLabel : null}
                 </Button>
-                <Button type="button" onClick={() => router.push(authHref)}>
-                  {authLabel}
-                </Button>
+                {isSignedIn ? (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    className="min-w-0 [&>span]:inline-flex [&>span]:min-w-0 [&>span]:items-center [&>span]:gap-2 text-light bg-none hover:bg-transparent"
+                    onClick={() => router.push(authHref)}
+                  >
+                    <Avatar
+                      src={session.data?.image}
+                      alt={authLabel}
+                      shape="circle"
+                      variant="cover"
+                      size="small"
+                      className="h-5 w-5 shrink-0 rounded-full"
+                    />
+                    <span className="truncate">{authLabel}</span>
+                  </Button>
+                ) : (
+                  <Button type="button" onClick={() => router.push(authHref)}>
+                    {authLabel}
+                  </Button>
+                )}
               </nav>
             </div>
 
@@ -168,8 +188,8 @@ export const Topbar = ({ locale }: { locale: Locale }) => {
               </form>
             </div>
           </div>
+          <NavigationProgress />
         </header>
-        <NavigationProgress />
       </div>
 
       <nav

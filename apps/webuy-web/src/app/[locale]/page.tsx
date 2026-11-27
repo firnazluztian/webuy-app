@@ -30,7 +30,7 @@ export default async function HomePage({
   const locale = raw as Locale;
 
   return (
-    <div className="flex flex-col gap-12 md:gap-16">
+    <div className="flex flex-col gap-4 md:gap-8">
       <HomeHeroCarousel locale={locale} />
       <HomeCyberMondayBanner locale={locale} />
       <FeaturedProducts locale={locale} />

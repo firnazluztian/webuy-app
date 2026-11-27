@@ -30,6 +30,8 @@ export const AssistantFab = ({ locale }: AssistantFabProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   // Start hidden to avoid SSR/client mismatch; reveal after hydrate if not dismissed.
   const [isBubbleVisible, setIsBubbleVisible] = useState(false);
+  // Mobile-first: bot button until we know we are at `sm`+.
+  const [isDesktop, setIsDesktop] = useState(false);
   const { messages, sendMessage, status, error, clearConversation } =
     useAssistantChat(locale);
 
@@ -44,10 +46,28 @@ export const AssistantFab = ({ locale }: AssistantFabProps) => {
     saveAssistantBubbleDismissed();
   };
 
+  const handleTriggerClick = () => {
+    if (isExpanded) {
+      closeAll();
+    }
+  };
+
   useEffect(() => {
     if (!loadAssistantBubbleDismissed()) {
       setIsBubbleVisible(true);
     }
+  }, []);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(min-width: 640px)');
+    const sync = () => {
+      setIsDesktop(mediaQuery.matches);
+    };
+    sync();
+    mediaQuery.addEventListener('change', sync);
+    return () => {
+      mediaQuery.removeEventListener('change', sync);
+    };
   }, []);
 
   // Dialog can leak body overflow=hidden when collapsing Dialog↔Popover or
@@ -150,38 +170,46 @@ export const AssistantFab = ({ locale }: AssistantFabProps) => {
             </div>
           }
         >
-          <div
-            role="button"
-            tabIndex={0}
-            aria-label={t.shell.assistantOpen}
-            aria-expanded={isOpen}
-            className="cursor-pointer outline-none"
-            onClick={() => {
-              if (isExpanded) {
+          {isDesktop ? (
+            <div
+              role="button"
+              tabIndex={0}
+              aria-label={t.shell.assistantOpen}
+              aria-expanded={isOpen}
+              className="cursor-pointer outline-none"
+              onClick={handleTriggerClick}
+              onKeyDown={(event) => {
+                if (!isExpanded) {
+                  return;
+                }
+                if (event.key !== 'Enter' && event.key !== ' ') {
+                  return;
+                }
+                event.preventDefault();
                 closeAll();
-              }
-            }}
-            onKeyDown={(event) => {
-              if (!isExpanded) {
-                return;
-              }
-              if (event.key !== 'Enter' && event.key !== ' ') {
-                return;
-              }
-              event.preventDefault();
-              closeAll();
-            }}
-          >
-            {/* Mascot is a <button>; disable pointer events so the trigger owns press/dismiss. */}
-            <div className="kiichan-float pointer-events-none">
-              <Mascot
-                directions={KIICHAN_DIRECTIONS}
-                reactions={KIICHAN_REACTIONS}
-                size={MASCOT_SIZE}
-                label={t.shell.assistantOpen}
-              />
+              }}
+            >
+              {/* Mascot is a <button>; disable pointer events so the trigger owns press/dismiss. */}
+              <div className="kiichan-float pointer-events-none">
+                <Mascot
+                  directions={KIICHAN_DIRECTIONS}
+                  reactions={KIICHAN_REACTIONS}
+                  size={MASCOT_SIZE}
+                  label={t.shell.assistantOpen}
+                />
+              </div>
             </div>
-          </div>
+          ) : (
+            <Button
+              type="button"
+              variant="primary"
+              isIconOnly
+              leftIcon="mdi:robot-outline"
+              aria-label={t.shell.assistantOpen}
+              aria-expanded={isOpen}
+              onClick={handleTriggerClick}
+            />
+          )}
         </Popover>
       </div>
 
