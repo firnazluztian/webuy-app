@@ -20,6 +20,8 @@ const id: Messages = {
     footerTagline: 'Belanja kebutuhan di Singapura, Korea, dan Indonesia.',
     footerRights: `© ${BRAND_NAME}. Hak cipta dilindungi.`,
     assistantOpen: `Buka Asisten ${BRAND_NAME}`,
+    assistantBubbleSays: 'kiichan bilang',
+    assistantBubbleMessage: 'Butuh rekomendasi? Tanya aja — aku hafal raknya.',
     assistantTitle: `Asisten ${BRAND_NAME}`,
     assistantSubtitle: 'Rekomendasi produk dan pintasan ke katalog.',
     assistantPlaceholder: 'Tanya tentang produk…',

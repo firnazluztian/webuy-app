@@ -1,7 +1,7 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  transpilePackages: ['@kiichan/design-system'],
+  transpilePackages: ['@kiichan/design-system', 'page-mascot'],
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'cdn.dummyjson.com' },

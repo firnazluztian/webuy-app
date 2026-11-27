@@ -20,6 +20,8 @@ const en: Messages = {
     footerTagline: 'Shop essentials across Singapore, Korea, and Indonesia.',
     footerRights: `© ${BRAND_NAME}. All rights reserved.`,
     assistantOpen: `Open ${BRAND_NAME} Assistant`,
+    assistantBubbleSays: 'kiichan says',
+    assistantBubbleMessage: 'Need a pick? Ask me — I know the shelves.',
     assistantTitle: `${BRAND_NAME} Assistant`,
     assistantSubtitle: 'Product tips, picks, and short cuts into the catalog.',
     assistantPlaceholder: 'Ask about products…',

@@ -23,6 +23,8 @@ export interface Messages {
     footerTagline: string;
     footerRights: string;
     assistantOpen: string;
+    assistantBubbleSays: string;
+    assistantBubbleMessage: string;
     assistantTitle: string;
     assistantSubtitle: string;
     assistantPlaceholder: string;

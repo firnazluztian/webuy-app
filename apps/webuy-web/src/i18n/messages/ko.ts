@@ -20,6 +20,8 @@ const ko: Messages = {
     footerTagline: '싱가포르, 한국, 인도네시아에서 필요한 상품을 쇼핑하세요.',
     footerRights: `© ${BRAND_NAME}. All rights reserved.`,
     assistantOpen: `${BRAND_NAME} 어시스턴트 열기`,
+    assistantBubbleSays: 'kiichan의 한마디',
+    assistantBubbleMessage: '뭐 살지 고민돼? 나한테 물어봐 — 진열은 내가 알아.',
     assistantTitle: `${BRAND_NAME} 어시스턴트`,
     assistantSubtitle: '상품 추천과 카탈로그로 바로 이동하세요.',
     assistantPlaceholder: '상품에 대해 물어보세요…',
