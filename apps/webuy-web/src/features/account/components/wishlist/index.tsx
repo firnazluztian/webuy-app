@@ -36,14 +36,14 @@ export const AccountWishlist = ({ locale }: AccountWishlistProps) => {
           {t.account.wishlistEmpty}
         </Text>
       ) : (
-        <ul className="flex flex-col gap-4">
+        <ul className="flex flex-col gap-3">
           {items.map((item) => (
             <li
               key={item.productId}
-              className="flex min-w-0 flex-col gap-3 border-b border-neutral-200 pb-4 last:border-b-0 last:pb-0 sm:flex-row sm:items-center"
+              className="flex min-w-0 flex-col gap-3 rounded-2xl bg-primary-50 p-3 sm:flex-row sm:items-center sm:p-4"
             >
               <div className="flex min-w-0 flex-1 items-center gap-3">
-                <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-neutral-100">
+                <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-white">
                   <Image
                     src={item.thumbnail}
                     alt={item.title}

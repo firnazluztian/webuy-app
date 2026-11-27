@@ -95,9 +95,9 @@ export const AccountOrders = ({ locale }: AccountOrdersProps) => {
               {order.items.map((item) => (
                 <li
                   key={`${order.id}-${item.productId}`}
-                  className="flex min-w-0 gap-3"
+                  className="flex min-w-0 gap-3 rounded-xl bg-primary-50 p-2.5 sm:p-3"
                 >
-                  <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-lg bg-neutral-100">
+                  <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-lg bg-white">
                     <Image
                       src={item.thumbnail}
                       alt={item.title}

@@ -1,14 +1,16 @@
-"use client";
+'use client';
 
-import { useTranslations } from "@/features/shell/hooks/use-translations";
-import type { Locale } from "@/i18n/types";
-import type { Product } from "@/lib/schemas";
+import { useTranslations } from '@/features/shell/hooks/use-translations';
+import type { Locale } from '@/i18n/types';
+import type { Product } from '@/lib/schemas';
 
 function SpecRow({ label, value }: { label: string; value: string }) {
   return (
-    <div className="grid grid-cols-[minmax(0,11rem)_minmax(0,1fr)] gap-3 border-b border-neutral-100 py-3 last:border-b-0">
-      <dt className="text-sm text-neutral-500">{label}</dt>
-      <dd className="text-sm text-neutral-900">{value}</dd>
+    <div className="grid grid-cols-1 gap-1 border-b border-neutral-200 py-4 last:border-b-0 sm:grid-cols-[minmax(0,12rem)_minmax(0,1fr)] sm:gap-6">
+      <dt className="text-xs font-medium tracking-[0.14em] text-neutral-500 uppercase">
+        {label}
+      </dt>
+      <dd className="text-sm leading-relaxed text-neutral-900">{value}</dd>
     </div>
   );
 }
@@ -80,7 +82,7 @@ export const ProductSpecs = ({
     });
   }
   if (product.tags && product.tags.length > 0) {
-    rows.push({ label: t.product.tags, value: product.tags.join(", ") });
+    rows.push({ label: t.product.tags, value: product.tags.join(', ') });
   }
 
   if (rows.length === 0) {
@@ -88,15 +90,16 @@ export const ProductSpecs = ({
   }
 
   return (
-    <section className="flex flex-col gap-2" aria-labelledby="product-specs">
-      <h2 id="product-specs" className="text-xl font-semibold text-neutral-900">
+    <section className="flex flex-col gap-4" aria-labelledby="product-specs">
+      <h2
+        id="product-specs"
+        className="text-xs font-medium tracking-[0.2em] text-neutral-500 uppercase"
+      >
         {t.product.specifications}
       </h2>
-      <dl>
-        {rows.map((row) => (
-          <SpecRow key={row.label} label={row.label} value={row.value} />
-        ))}
-      </dl>
+      <dl>{rows.map((row) => (
+        <SpecRow key={row.label} label={row.label} value={row.value} />
+      ))}</dl>
     </section>
   );
 };

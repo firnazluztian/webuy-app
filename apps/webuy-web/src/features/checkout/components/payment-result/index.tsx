@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useLocalOrder } from '@/features/checkout/hooks/use-local-order';
 import type { PaymentResultProps } from '@/features/checkout/types';
+import { PageSectionSkeleton } from '@/features/shell/components/loading/page-section-skeleton';
 import { useFormatMoney } from '@/features/shell/hooks/use-format-money';
 import { useTranslations } from '@/features/shell/hooks/use-translations';
 
@@ -12,7 +13,7 @@ export const PaymentResult = ({ locale, orderId }: PaymentResultProps) => {
   const { format } = useFormatMoney();
 
   if (order === undefined) {
-    return <p className="text-sm text-neutral-600">{t.payment.processing}</p>;
+    return <PageSectionSkeleton rows={3} />;
   }
 
   if (!order) {

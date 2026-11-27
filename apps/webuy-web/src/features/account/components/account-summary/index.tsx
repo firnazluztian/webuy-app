@@ -1,7 +1,6 @@
 'use client';
 
 import { Avatar, Text } from '@kiichan/design-system';
-import { getKiichanImage } from '@/lib/kiichan/images';
 import type { AuthUser } from '@/lib/schemas';
 
 interface AccountSummaryProps {
@@ -14,7 +13,7 @@ export const AccountSummary = ({ user }: AccountSummaryProps) => {
   return (
     <div className="flex min-w-0 items-center gap-3">
       <Avatar
-        src={getKiichanImage('delighted')}
+        src={user.image}
         alt={fullName || user.username}
         shape="circle"
         variant="cover"

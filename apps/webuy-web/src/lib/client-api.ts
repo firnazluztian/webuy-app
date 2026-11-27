@@ -40,7 +40,7 @@ export async function fetchProduct(id: string | number): Promise<Product> {
 export async function fetchSearch(query: string): Promise<Product[]> {
   const q = query.trim();
   if (!q) {
-    return fetchProducts(24, 0);
+    return fetchProducts(36, 0);
   }
   const json = await getJson<unknown>(
     `${COMMERCE_API_BASE}/products/search?q=${encodeURIComponent(q)}`
@@ -60,6 +60,57 @@ export async function fetchCarts(limit = 20): Promise<Cart[]> {
 
 interface UserWithPassword extends User {
   password?: string;
+}
+
+function withoutTokens(user: AuthUser): AuthUser {
+  const { accessToken: _accessToken, refreshToken: _refreshToken, ...safe } =
+    user;
+  return safe;
+}
+
+/** Session edits win. Directory data only fills fields the session does not have. */
+function overlayProfile(primary: AuthUser, fallback: AuthUser): AuthUser {
+  return authUserSchema.parse({
+    ...fallback,
+    ...primary,
+    image: primary.image || fallback.image,
+    phone: primary.phone || fallback.phone,
+    gender: primary.gender || fallback.gender,
+    birthDate: primary.birthDate || fallback.birthDate,
+    address: primary.address ?? fallback.address,
+    email: primary.email || fallback.email,
+  });
+}
+
+function needsDirectoryProfile(user: AuthUser): boolean {
+  return !user.image || !user.birthDate || !user.address || !user.phone;
+}
+
+async function enrichFromDirectory(user: AuthUser): Promise<AuthUser> {
+  if (!needsDirectoryProfile(user)) {
+    return user;
+  }
+  try {
+    const json = await getJson<unknown>(`${COMMERCE_API_BASE}/users/${user.id}`);
+    const directory = authUserSchema.parse(json);
+    return overlayProfile(user, directory);
+  } catch {
+    return user;
+  }
+}
+
+function readCachedUser(): AuthUser | null {
+  const cached = getStoredUserJson();
+  if (!cached) {
+    return null;
+  }
+  return authUserSchema.parse(JSON.parse(cached));
+}
+
+function storeSafeUser(token: string, user: AuthUser): AuthUser {
+  const safe = withoutTokens(user);
+  setStoredSession(token, JSON.stringify(safe));
+  return safe;
 }
 
 export async function loginAsRandomUser(): Promise<AuthUser> {
@@ -83,31 +134,34 @@ export async function loginAsRandomUser(): Promise<AuthUser> {
     }),
   });
 
-  const user = authUserSchema.parse(authJson);
-  if (!user.accessToken) {
+  const authenticated = authUserSchema.parse(authJson);
+  if (!authenticated.accessToken) {
     throw new Error('Login did not return accessToken');
   }
-  const { accessToken, refreshToken: _refresh, ...safeUser } = user;
-  setStoredSession(accessToken, JSON.stringify(safeUser));
-  return user;
+  const directory = authUserSchema.parse(pick);
+  const user = overlayProfile(authenticated, directory);
+  const safeUser = storeSafeUser(authenticated.accessToken, user);
+  return { ...safeUser, accessToken: authenticated.accessToken };
 }
 
 export async function fetchMe(): Promise<AuthUser | null> {
   const token = getStoredToken();
+  const cached = readCachedUser();
   if (!token) {
-    const cached = getStoredUserJson();
-    return cached ? authUserSchema.parse(JSON.parse(cached)) : null;
+    return cached;
   }
 
   try {
     const json = await getJson<unknown>(`${COMMERCE_API_BASE}/auth/me`, {
       headers: { Authorization: `Bearer ${token}` },
     });
-    return authUserSchema.parse(json);
+    const live = authUserSchema.parse(json);
+    const session = cached ? overlayProfile(cached, live) : live;
+    const enriched = await enrichFromDirectory(session);
+    return storeSafeUser(token, enriched);
   } catch {
-    const cached = getStoredUserJson();
     if (cached) {
-      return authUserSchema.parse(JSON.parse(cached));
+      return cached;
     }
     clearStoredSession();
     return null;

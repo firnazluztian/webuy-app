@@ -5,6 +5,10 @@ import { Mascot } from 'page-mascot';
 import { useEffect, useState } from 'react';
 import { ChatPanel } from '@/features/assistant/components/chat-panel';
 import { useAssistantChat } from '@/features/assistant/hooks/use-assistant-chat';
+import {
+  loadAssistantBubbleDismissed,
+  saveAssistantBubbleDismissed,
+} from '@/features/assistant/storage';
 import { useTranslations } from '@/features/shell/hooks/use-translations';
 import type { Locale } from '@/i18n/types';
 
@@ -24,7 +28,8 @@ export const AssistantFab = ({ locale }: AssistantFabProps) => {
   const t = useTranslations(locale);
   const [isOpen, setIsOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
-  const [isBubbleVisible, setIsBubbleVisible] = useState(true);
+  // Start hidden to avoid SSR/client mismatch; reveal after hydrate if not dismissed.
+  const [isBubbleVisible, setIsBubbleVisible] = useState(false);
   const { messages, sendMessage, status, error, clearConversation } =
     useAssistantChat(locale);
 
@@ -35,7 +40,14 @@ export const AssistantFab = ({ locale }: AssistantFabProps) => {
 
   const dismissBubble = () => {
     setIsBubbleVisible(false);
+    saveAssistantBubbleDismissed();
   };
+
+  useEffect(() => {
+    if (!loadAssistantBubbleDismissed()) {
+      setIsBubbleVisible(true);
+    }
+  }, []);
 
   // Dialog locks body via overflow=hidden and only restores after its exit
   // timeout — collapsing to popover / clearing that timer can leave scroll stuck.

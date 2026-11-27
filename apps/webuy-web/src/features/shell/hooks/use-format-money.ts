@@ -1,11 +1,19 @@
 'use client';
 
+import { useMarketHydrated } from '@/features/shell/hooks/use-market-hydrated';
 import { useMarketStore } from '@/features/shell/hooks/use-market-store';
-import { convertFromBase, formatMoney, getMarket } from '@/i18n/markets';
+import {
+  convertFromBase,
+  defaultMarketId,
+  formatMoney,
+  getMarket,
+} from '@/i18n/markets';
 import type { MarketId } from '@/i18n/types';
 
 export function useFormatMoney() {
-  const marketId = useMarketStore((state) => state.marketId);
+  const hydrated = useMarketHydrated();
+  const persistedId = useMarketStore((state) => state.marketId);
+  const marketId = hydrated ? persistedId : defaultMarketId;
   const market = getMarket(marketId);
 
   return {
@@ -18,5 +26,7 @@ export function useFormatMoney() {
 }
 
 export function useMarketId(): MarketId {
-  return useMarketStore((state) => state.marketId);
+  const hydrated = useMarketHydrated();
+  const persistedId = useMarketStore((state) => state.marketId);
+  return hydrated ? persistedId : defaultMarketId;
 }

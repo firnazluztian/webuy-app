@@ -8,6 +8,7 @@ import { AccountSummary } from "@/features/account/components/account-summary";
 import { LogoutDialog } from "@/features/account/components/logout-dialog";
 import { accountSectionFromPathname } from "@/features/account/constants";
 import { useSession } from "@/features/account/hooks/use-session";
+import { AccountShellSkeleton } from "@/features/shell/components/loading/account-shell-skeleton";
 import { useTranslations } from "@/features/shell/hooks/use-translations";
 import type { Locale } from "@/i18n/types";
 
@@ -25,11 +26,7 @@ export const AccountLayout = ({ locale, children }: AccountLayoutProps) => {
   const active = accountSectionFromPathname(pathname);
 
   if (session.isLoading) {
-    return (
-      <Text variant="body2" className="text-neutral-600">
-        {t.common.loading}
-      </Text>
-    );
+    return <AccountShellSkeleton title={t.account.title} />;
   }
 
   if (!session.data) {

@@ -10,43 +10,57 @@ import {
 import { queryKeys } from '@/lib/query-keys';
 import { authUserSchema, type AuthUser } from '@/lib/schemas';
 
-interface ProfileFormState {
-  email: string;
-  password: string;
-  confirmPassword: string;
+interface ShippingFormState {
+  address: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  country: string;
 }
 
 interface FieldErrors {
-  email?: string;
-  password?: string;
-  confirmPassword?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  postalCode?: string;
+  country?: string;
 }
 
 interface UseProfileFormOptions {
   user: AuthUser;
   messages: {
-    emailRequired: string;
-    emailInvalid: string;
-    passwordTooShort: string;
-    passwordMismatch: string;
+    addressRequired: string;
+    cityRequired: string;
+    stateRequired: string;
+    postalCodeRequired: string;
+    countryRequired: string;
     saveSuccess: string;
+  };
+}
+
+function shippingFromUser(user: AuthUser): ShippingFormState {
+  return {
+    address: user.address?.address ?? '',
+    city: user.address?.city ?? '',
+    state: user.address?.state ?? '',
+    postalCode: user.address?.postalCode ?? '',
+    country: user.address?.country ?? '',
   };
 }
 
 function persistUserUpdate(next: AuthUser) {
   const token = getStoredToken() ?? 'local-session';
-  const { accessToken: _a, refreshToken: _r, ...safe } = next;
+  const { accessToken: _accessToken, refreshToken: _refreshToken, ...safe } =
+    next;
   setStoredSession(token, JSON.stringify(safe));
   return safe;
 }
 
 export function useProfileForm({ user, messages }: UseProfileFormOptions) {
   const client = useQueryClient();
-  const [form, setForm] = useState<ProfileFormState>({
-    email: user.email,
-    password: '',
-    confirmPassword: '',
-  });
+  const [form, setForm] = useState<ShippingFormState>(() =>
+    shippingFromUser(user)
+  );
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
@@ -58,17 +72,18 @@ export function useProfileForm({ user, messages }: UseProfileFormOptions) {
         : user;
       const next: AuthUser = {
         ...current,
-        email: form.email.trim(),
+        address: {
+          address: form.address.trim(),
+          city: form.city.trim(),
+          state: form.state.trim(),
+          postalCode: form.postalCode.trim(),
+          country: form.country.trim(),
+        },
       };
       return persistUserUpdate(next);
     },
     onSuccess: (safeUser) => {
       client.setQueryData(queryKeys.me, safeUser);
-      setForm((current) => ({
-        ...current,
-        password: '',
-        confirmPassword: '',
-      }));
       setSuccessMessage(messages.saveSuccess);
     },
   });
@@ -88,21 +103,20 @@ export function useProfileForm({ user, messages }: UseProfileFormOptions) {
     setSuccessMessage(null);
 
     const nextErrors: FieldErrors = {};
-    const email = form.email.trim();
-
-    if (!email) {
-      nextErrors.email = messages.emailRequired;
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      nextErrors.email = messages.emailInvalid;
+    if (!form.address.trim()) {
+      nextErrors.address = messages.addressRequired;
     }
-
-    if (form.password || form.confirmPassword) {
-      if (form.password.length < 6) {
-        nextErrors.password = messages.passwordTooShort;
-      }
-      if (form.password !== form.confirmPassword) {
-        nextErrors.confirmPassword = messages.passwordMismatch;
-      }
+    if (!form.city.trim()) {
+      nextErrors.city = messages.cityRequired;
+    }
+    if (!form.state.trim()) {
+      nextErrors.state = messages.stateRequired;
+    }
+    if (!form.postalCode.trim()) {
+      nextErrors.postalCode = messages.postalCodeRequired;
+    }
+    if (!form.country.trim()) {
+      nextErrors.country = messages.countryRequired;
     }
 
     setFieldErrors(nextErrors);

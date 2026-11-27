@@ -6,12 +6,14 @@ import type { FormEvent } from "react";
 import { useState } from "react";
 import { Button, Icon, Input } from "@kiichan/design-system";
 import { useSession } from "@/features/account/hooks/use-session";
+import { useCartHydrated } from "@/features/cart/hooks/use-cart-hydrated";
 import { useCartStore } from "@/features/cart/hooks/use-cart-store";
 import { MarketDialog } from "@/features/shell/components/market-dialog";
+import { useMarketHydrated } from "@/features/shell/hooks/use-market-hydrated";
 import { useMarketStore } from "@/features/shell/hooks/use-market-store";
 import { useTranslations } from "@/features/shell/hooks/use-translations";
 import { localeFlagIcons } from "@/i18n/config";
-import { getMarket } from "@/i18n/markets";
+import { defaultMarketId, getMarket } from "@/i18n/markets";
 import type { Locale } from "@/i18n/types";
 
 const BottomTab = ({
@@ -52,9 +54,14 @@ export const Topbar = ({ locale }: { locale: Locale }) => {
   const t = useTranslations(locale);
   const router = useRouter();
   const session = useSession();
+  const cartHydrated = useCartHydrated();
+  const marketHydrated = useMarketHydrated();
   const qty = useCartStore((state) => state.totalQuantity());
-  const marketId = useMarketStore((state) => state.marketId);
-  const market = getMarket(marketId);
+  const persistedMarketId = useMarketStore((state) => state.marketId);
+  const safeQty = cartHydrated ? qty : 0;
+  const market = getMarket(
+    marketHydrated ? persistedMarketId : defaultMarketId,
+  );
   const [query, setQuery] = useState("");
   const [marketOpen, setMarketOpen] = useState(false);
 
@@ -73,7 +80,8 @@ export const Topbar = ({ locale }: { locale: Locale }) => {
     : t.shell.login;
   const languageFlag = localeFlagIcons[locale];
   const marketLabel = `${market.label} · ${market.currency}`;
-  const cartLabel = qty > 0 ? `${t.shell.cart} (${qty})` : t.shell.cart;
+  const cartLabel =
+    safeQty > 0 ? `${t.shell.cart} (${safeQty})` : t.shell.cart;
 
   return (
     <>
@@ -118,7 +126,7 @@ export const Topbar = ({ locale }: { locale: Locale }) => {
                 aria-label={cartLabel}
                 onClick={() => router.push(`/${locale}/cart`)}
              >
-              {qty ? cartLabel : null}
+              {safeQty ? cartLabel : null}
               </Button>
               <Button type="button" onClick={() => router.push(authHref)}>
                 {authLabel}
@@ -174,7 +182,7 @@ export const Topbar = ({ locale }: { locale: Locale }) => {
           <BottomTab
             icon="mdi:cart-outline"
             label={t.shell.cart}
-            badge={qty}
+            badge={safeQty}
             onClick={() => router.push(`/${locale}/cart`)}
           />
           <BottomTab

@@ -1,24 +1,39 @@
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { FeaturedProducts, HomeHeroCarousel } from '@/features/catalog';
-import { getMessages, isLocale } from '@/i18n/config';
+import {
+  FeaturedProducts,
+  HomeCyberMondayBanner,
+  HomeHeroCarousel,
+} from '@/features/catalog';
+import { isLocale } from '@/i18n/config';
 import type { Locale } from '@/i18n/types';
+import { routeMetadata } from '@/lib/route-metadata';
 
-export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return routeMetadata(locale, (messages) => messages.shell.home);
+}
+
+export default async function HomePage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
   const { locale: raw } = await params;
   if (!isLocale(raw)) {
     notFound();
   }
   const locale = raw as Locale;
-  const t = getMessages(locale);
 
   return (
-    <div className="flex flex-col gap-10">
+    <div className="flex flex-col gap-12 md:gap-16">
       <HomeHeroCarousel locale={locale} />
-
-      <section className="flex flex-col gap-4">
-        <h2 className="text-2xl font-semibold text-neutral-900">{t.home.featuredHeading}</h2>
-        <FeaturedProducts locale={locale} />
-      </section>
+      <HomeCyberMondayBanner locale={locale} />
+      <FeaturedProducts locale={locale} />
     </div>
   );
 }

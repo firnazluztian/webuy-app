@@ -45,6 +45,15 @@ export const productsResponseSchema = z.object({
   limit: z.number(),
 });
 
+export const userAddressSchema = z.object({
+  address: z.string(),
+  city: z.string(),
+  state: z.string().optional(),
+  stateCode: z.string().optional(),
+  postalCode: z.string(),
+  country: z.string(),
+});
+
 export const userSchema = z.object({
   id: z.number(),
   firstName: z.string(),
@@ -53,6 +62,9 @@ export const userSchema = z.object({
   username: z.string(),
   image: z.string().optional(),
   phone: z.string().optional(),
+  gender: z.string().optional(),
+  birthDate: z.string().optional(),
+  address: userAddressSchema.optional(),
   company: z
     .object({
       name: z.string().optional(),
@@ -71,7 +83,6 @@ export const usersResponseSchema = z.object({
 export const authUserSchema = userSchema.extend({
   accessToken: z.string().optional(),
   refreshToken: z.string().optional(),
-  gender: z.string().optional(),
 });
 
 export const cartSchema = z.object({
