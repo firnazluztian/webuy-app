@@ -2,7 +2,7 @@
 
 import { Dialog, Popover } from '@kiichan/design-system';
 import { Mascot } from 'page-mascot';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ChatPanel } from '@/features/assistant/components/chat-panel';
 import { useAssistantChat } from '@/features/assistant/hooks/use-assistant-chat';
 import { useTranslations } from '@/features/shell/hooks/use-translations';
@@ -16,6 +16,10 @@ interface AssistantFabProps {
   locale: Locale;
 }
 
+const unlockBodyScroll = () => {
+  document.body.style.overflow = '';
+};
+
 export const AssistantFab = ({ locale }: AssistantFabProps) => {
   const t = useTranslations(locale);
   const [isOpen, setIsOpen] = useState(false);
@@ -27,6 +31,15 @@ export const AssistantFab = ({ locale }: AssistantFabProps) => {
     setIsOpen(false);
     setIsExpanded(false);
   };
+
+  // Dialog locks body via overflow=hidden and only restores after its exit
+  // timeout — collapsing to popover / clearing that timer can leave scroll stuck.
+  useEffect(() => {
+    if (isOpen && isExpanded) {
+      return;
+    }
+    unlockBodyScroll();
+  }, [isOpen, isExpanded]);
 
   const handleToggleExpanded = () => {
     if (isExpanded) {
@@ -61,7 +74,6 @@ export const AssistantFab = ({ locale }: AssistantFabProps) => {
           color="light"
           backdrop="blur"
           isDismissable
-          shouldBlockScroll
           shouldCloseOnScroll={false}
           offset={12}
           triggerScaleOnOpen={false}

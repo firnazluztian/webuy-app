@@ -85,10 +85,16 @@ const ko: Messages = {
   auth: {
     loginTitle: '로그인',
     email: '이메일',
+    username: '사용자 이름',
     password: '비밀번호',
     submit: '로그인',
     error: '로그인할 수 없습니다. 다시 시도해 주세요.',
     subtitle: '주문 및 계정 정보에 접근하세요.',
+    orContinueWith: '또는 다음으로 계속',
+    continueWithGoogle: 'Google로 계속',
+    continueWithApple: 'Apple로 계속',
+    usernameRequired: '사용자 이름을 입력하세요.',
+    passwordRequired: '비밀번호를 입력하세요.',
   },
   account: {
     title: '내 계정',

@@ -86,10 +86,16 @@ const id: Messages = {
   auth: {
     loginTitle: 'Masuk',
     email: 'Email',
+    username: 'Nama pengguna',
     password: 'Kata sandi',
     submit: 'Masuk',
     error: 'Tidak dapat masuk. Silakan coba lagi.',
     subtitle: 'Akses pesanan dan detail akun Anda.',
+    orContinueWith: 'Atau lanjutkan dengan',
+    continueWithGoogle: 'Lanjutkan dengan Google',
+    continueWithApple: 'Lanjutkan dengan Apple',
+    usernameRequired: 'Masukkan nama pengguna Anda.',
+    passwordRequired: 'Masukkan kata sandi Anda.',
   },
   account: {
     title: 'Akun Anda',

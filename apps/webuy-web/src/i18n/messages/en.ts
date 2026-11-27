@@ -86,10 +86,16 @@ const en: Messages = {
   auth: {
     loginTitle: 'Sign in',
     email: 'Email',
+    username: 'Username',
     password: 'Password',
     submit: 'Sign in',
     error: 'Unable to sign in. Please try again.',
     subtitle: 'Access your orders and account details.',
+    orContinueWith: 'Or continue with',
+    continueWithGoogle: 'Continue with Google',
+    continueWithApple: 'Continue with Apple',
+    usernameRequired: 'Enter your username.',
+    passwordRequired: 'Enter your password.',
   },
   account: {
     title: 'Your account',

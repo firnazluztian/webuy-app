@@ -88,10 +88,16 @@ export interface Messages {
   auth: {
     loginTitle: string;
     email: string;
+    username: string;
     password: string;
     submit: string;
     error: string;
     subtitle: string;
+    orContinueWith: string;
+    continueWithGoogle: string;
+    continueWithApple: string;
+    usernameRequired: string;
+    passwordRequired: string;
   };
   account: {
     title: string;
