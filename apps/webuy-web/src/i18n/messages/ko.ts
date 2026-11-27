@@ -1,8 +1,9 @@
+import { BRAND_NAME } from '@/config/brand';
 import type { Messages } from '../types';
 
 const ko: Messages = {
   shell: {
-    brand: 'WeBuy',
+    brand: BRAND_NAME,
     searchPlaceholder: '상품 검색…',
     cart: '장바구니',
     account: '계정',
@@ -17,9 +18,21 @@ const ko: Messages = {
     cancel: '취소',
     home: '홈',
     footerTagline: '싱가포르, 한국, 인도네시아에서 필요한 상품을 쇼핑하세요.',
-    footerRights: '© WeBuy. All rights reserved.',
-    vinoveOpen: 'Vinove AI 열기',
-    vinoveTitle: 'Vinove AI',
+    footerRights: `© ${BRAND_NAME}. All rights reserved.`,
+    assistantOpen: `${BRAND_NAME} 어시스턴트 열기`,
+    assistantTitle: `${BRAND_NAME} 어시스턴트`,
+    assistantSubtitle: '상품 추천과 카탈로그로 바로 이동하세요.',
+    assistantPlaceholder: '상품에 대해 물어보세요…',
+    assistantSend: '메시지 보내기',
+    assistantEmpty: '추천, 최저가, 또는 원하는 상품을 찾아보세요.',
+    assistantThinking: '생각 중…',
+    assistantError: '문제가 발생했습니다. 다시 시도해 주세요.',
+    assistantClear: '대화 지우기',
+    assistantExpand: '어시스턴트 확대',
+    assistantCollapse: '어시스턴트 축소',
+    assistantGuestName: '고객',
+    assistantLoginRequired: `${BRAND_NAME} 어시스턴트와 채팅하려면 로그인해 주세요.`,
+    assistantLoginCta: '로그인하고 계속',
   },
   home: {
     heroTitle: '필요한 상품을 찾아보세요',
@@ -96,7 +109,7 @@ const ko: Messages = {
   payment: {
     processing: '결제 처리 중…',
     successTitle: '결제 완료',
-    successBody: '주문이 확인되었습니다. WeBuy를 이용해 주셔서 감사합니다.',
+    successBody: `주문이 확인되었습니다. ${BRAND_NAME}를 이용해 주셔서 감사합니다.`,
     viewOrder: '주문 보기',
     failedTitle: '결제 실패',
   },

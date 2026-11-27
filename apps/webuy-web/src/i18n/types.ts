@@ -22,8 +22,20 @@ export interface Messages {
     home: string;
     footerTagline: string;
     footerRights: string;
-    vinoveOpen: string;
-    vinoveTitle: string;
+    assistantOpen: string;
+    assistantTitle: string;
+    assistantSubtitle: string;
+    assistantPlaceholder: string;
+    assistantSend: string;
+    assistantEmpty: string;
+    assistantThinking: string;
+    assistantError: string;
+    assistantClear: string;
+    assistantExpand: string;
+    assistantCollapse: string;
+    assistantGuestName: string;
+    assistantLoginRequired: string;
+    assistantLoginCta: string;
   };
   home: {
     heroTitle: string;

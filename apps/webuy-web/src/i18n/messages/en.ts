@@ -1,8 +1,9 @@
+import { BRAND_NAME } from '@/config/brand';
 import type { Messages } from '../types';
 
 const en: Messages = {
   shell: {
-    brand: 'WeBuy',
+    brand: BRAND_NAME,
     searchPlaceholder: 'Search products…',
     cart: 'Cart',
     account: 'Account',
@@ -17,9 +18,22 @@ const en: Messages = {
     cancel: 'Cancel',
     home: 'Home',
     footerTagline: 'Shop essentials across Singapore, Korea, and Indonesia.',
-    footerRights: '© WeBuy. All rights reserved.',
-    vinoveOpen: 'Open Vinove AI',
-    vinoveTitle: 'Vinove AI',
+    footerRights: `© ${BRAND_NAME}. All rights reserved.`,
+    assistantOpen: `Open ${BRAND_NAME} Assistant`,
+    assistantTitle: `${BRAND_NAME} Assistant`,
+    assistantSubtitle: 'Product tips, picks, and short cuts into the catalog.',
+    assistantPlaceholder: 'Ask about products…',
+    assistantSend: 'Send message',
+    assistantEmpty:
+      'Ask for recommendations, cheapest picks, or help finding a product.',
+    assistantThinking: 'Thinking…',
+    assistantError: 'Something went wrong. Try again.',
+    assistantClear: 'Clear chat',
+    assistantExpand: 'Expand assistant',
+    assistantCollapse: 'Collapse assistant',
+    assistantGuestName: 'there',
+    assistantLoginRequired: `Sign in to chat with the ${BRAND_NAME} Assistant and get personalized product help.`,
+    assistantLoginCta: 'Sign in to continue',
   },
   home: {
     heroTitle: 'Find what you need',
@@ -96,7 +110,7 @@ const en: Messages = {
   payment: {
     processing: 'Processing payment…',
     successTitle: 'Payment successful',
-    successBody: 'Your order is confirmed. Thank you for shopping with WeBuy.',
+    successBody: `Your order is confirmed. Thank you for shopping with ${BRAND_NAME}.`,
     viewOrder: 'View order',
     failedTitle: 'Payment failed',
   },

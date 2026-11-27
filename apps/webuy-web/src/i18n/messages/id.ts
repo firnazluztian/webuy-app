@@ -1,8 +1,9 @@
+import { BRAND_NAME } from '@/config/brand';
 import type { Messages } from '../types';
 
 const id: Messages = {
   shell: {
-    brand: 'WeBuy',
+    brand: BRAND_NAME,
     searchPlaceholder: 'Cari produk…',
     cart: 'Keranjang',
     account: 'Akun',
@@ -17,9 +18,22 @@ const id: Messages = {
     cancel: 'Batal',
     home: 'Beranda',
     footerTagline: 'Belanja kebutuhan di Singapura, Korea, dan Indonesia.',
-    footerRights: '© WeBuy. Hak cipta dilindungi.',
-    vinoveOpen: 'Buka Vinove AI',
-    vinoveTitle: 'Vinove AI',
+    footerRights: `© ${BRAND_NAME}. Hak cipta dilindungi.`,
+    assistantOpen: `Buka Asisten ${BRAND_NAME}`,
+    assistantTitle: `Asisten ${BRAND_NAME}`,
+    assistantSubtitle: 'Rekomendasi produk dan pintasan ke katalog.',
+    assistantPlaceholder: 'Tanya tentang produk…',
+    assistantSend: 'Kirim pesan',
+    assistantEmpty:
+      'Minta rekomendasi, produk termurah, atau bantuan mencari produk.',
+    assistantThinking: 'Memikirkan…',
+    assistantError: 'Terjadi kesalahan. Coba lagi.',
+    assistantClear: 'Hapus chat',
+    assistantExpand: 'Perbesar asisten',
+    assistantCollapse: 'Kecilkan asisten',
+    assistantGuestName: 'teman',
+    assistantLoginRequired: `Masuk untuk mengobrol dengan Asisten ${BRAND_NAME} dan dapatkan bantuan produk.`,
+    assistantLoginCta: 'Masuk untuk lanjut',
   },
   home: {
     heroTitle: 'Temukan yang Anda butuhkan',
@@ -96,7 +110,7 @@ const id: Messages = {
   payment: {
     processing: 'Memproses pembayaran…',
     successTitle: 'Pembayaran berhasil',
-    successBody: 'Pesanan Anda dikonfirmasi. Terima kasih berbelanja di WeBuy.',
+    successBody: `Pesanan Anda dikonfirmasi. Terima kasih berbelanja di ${BRAND_NAME}.`,
     viewOrder: 'Lihat pesanan',
     failedTitle: 'Pembayaran gagal',
   },
