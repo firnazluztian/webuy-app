@@ -19,12 +19,35 @@ export function listLocalOrders(): LocalOrder[] {
   }
 }
 
+function writeOrders(orders: LocalOrder[]): void {
+  window.localStorage.setItem(ORDERS_STORAGE_KEY, JSON.stringify(orders));
+}
+
 export function saveLocalOrder(order: LocalOrder): void {
   if (typeof window === 'undefined') {
     return;
   }
-  const existing = listLocalOrders();
-  window.localStorage.setItem(ORDERS_STORAGE_KEY, JSON.stringify([order, ...existing]));
+  const existing = listLocalOrders().filter((item) => item.id !== order.id);
+  writeOrders([order, ...existing]);
+}
+
+export function updateLocalOrder(
+  orderId: string,
+  patch: Partial<LocalOrder>
+): LocalOrder | undefined {
+  if (typeof window === 'undefined') {
+    return undefined;
+  }
+  const orders = listLocalOrders();
+  const index = orders.findIndex((item) => item.id === orderId);
+  if (index < 0) {
+    return undefined;
+  }
+  const next = { ...orders[index], ...patch } as LocalOrder;
+  const copy = [...orders];
+  copy[index] = next;
+  writeOrders(copy);
+  return next;
 }
 
 export function getLocalOrder(id: string): LocalOrder | undefined {

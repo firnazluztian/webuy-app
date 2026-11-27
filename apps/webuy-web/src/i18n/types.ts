@@ -145,6 +145,8 @@ export interface Messages {
     continueWithApple: string;
     usernameRequired: string;
     passwordRequired: string;
+    sessionExpiredTitle: string;
+    sessionExpiredBody: string;
   };
   account: {
     title: string;
@@ -216,24 +218,71 @@ export interface Messages {
   };
   checkout: {
     title: string;
+    subtitle: string;
+    stepShipping: string;
+    stepPayment: string;
+    stepConfirmed: string;
     name: string;
     address: string;
     city: string;
+    state: string;
+    postalCode: string;
+    country: string;
+    phone: string;
     placeOrder: string;
+    continuePayment: string;
     emptyCart: string;
+    emptyHint: string;
+    shippingTitle: string;
+    shippingHint: string;
+    savedAddressBadge: string;
+    savedAddressHint: string;
+    editAddress: string;
+    orderSummary: string;
+    subtotal: string;
+    discount: string;
+    shipping: string;
+    shippingComplimentary: string;
+    total: string;
+    secureNote: string;
+    returnsNote: string;
+    packagingNote: string;
+    paymentError: string;
+    cancelledNotice: string;
+    vouchers: {
+      title: string;
+      hint: string;
+      placeholder: string;
+      apply: string;
+      remove: string;
+      invalid: string;
+      applied: string;
+      welcome: string;
+      luxe: string;
+      kiichan: string;
+    };
     errors: {
       nameRequired: string;
       addressRequired: string;
       cityRequired: string;
+      stateRequired: string;
+      postalCodeRequired: string;
+      countryRequired: string;
     };
   };
   payment: {
     title: string;
     processing: string;
+    successEyebrow: string;
     successTitle: string;
     successBody: string;
+    successKiichan: string;
+    orderLabel: string;
+    shippedTo: string;
+    continueShopping: string;
     viewOrder: string;
     failedTitle: string;
+    failedBody: string;
   };
   order: {
     title: string;
@@ -241,6 +290,7 @@ export interface Messages {
     total: string;
     backHome: string;
     notFound: string;
+    shippingAddress: string;
   };
   common: {
     loading: string;

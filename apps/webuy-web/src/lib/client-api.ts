@@ -17,10 +17,28 @@ import {
   type User,
 } from '@/lib/schemas';
 
+class ApiError extends Error {
+  readonly status: number;
+
+  constructor(status: number) {
+    super(`Request failed (${status})`);
+    this.name = 'ApiError';
+    this.status = status;
+  }
+}
+
+/** Thrown when `/auth/me` rejects the stored access token. */
+export class SessionExpiredError extends Error {
+  constructor() {
+    super('Session expired');
+    this.name = 'SessionExpiredError';
+  }
+}
+
 async function getJson<T>(url: string, init?: RequestInit): Promise<T> {
   const response = await fetch(url, init);
   if (!response.ok) {
-    throw new Error(`Request failed (${response.status})`);
+    throw new ApiError(response.status);
   }
   return response.json() as Promise<T>;
 }
@@ -159,7 +177,11 @@ export async function fetchMe(): Promise<AuthUser | null> {
     const session = cached ? overlayProfile(cached, live) : live;
     const enriched = await enrichFromDirectory(session);
     return storeSafeUser(token, enriched);
-  } catch {
+  } catch (error) {
+    if (error instanceof ApiError && error.status === 401) {
+      clearStoredSession();
+      throw new SessionExpiredError();
+    }
     if (cached) {
       return cached;
     }

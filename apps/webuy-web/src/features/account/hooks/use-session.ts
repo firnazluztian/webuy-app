@@ -1,8 +1,18 @@
 'use client';
 
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+  type QueryClient,
+} from '@tanstack/react-query';
 import { ACCOUNT_INSIGHTS_STORAGE_PREFIX } from '@/features/account/constants';
-import { fetchMe, loginAsRandomUser, logoutRequest } from '@/lib/client-api';
+import {
+  fetchMe,
+  loginAsRandomUser,
+  logoutRequest,
+  SessionExpiredError,
+} from '@/lib/client-api';
 import { queryKeys, staleTimes } from '@/lib/query-keys';
 
 function clearAccountInsightsCache() {
@@ -19,11 +29,19 @@ function clearAccountInsightsCache() {
   keysToRemove.forEach((key) => window.sessionStorage.removeItem(key));
 }
 
+export function resetSessionCache(client: QueryClient) {
+  clearAccountInsightsCache();
+  client.removeQueries({ queryKey: ['account', 'insights'] });
+  client.setQueryData(queryKeys.me, null);
+}
+
 export function useSession() {
   return useQuery({
     queryKey: queryKeys.me,
     queryFn: fetchMe,
     staleTime: staleTimes.me,
+    retry: (failureCount, error) =>
+      !(error instanceof SessionExpiredError) && failureCount < 1,
   });
 }
 
@@ -44,9 +62,7 @@ export function useLogout() {
   return useMutation({
     mutationFn: logoutRequest,
     onSuccess: () => {
-      clearAccountInsightsCache();
-      client.removeQueries({ queryKey: ['account', 'insights'] });
-      client.setQueryData(queryKeys.me, null);
+      resetSessionCache(client);
     },
   });
 }

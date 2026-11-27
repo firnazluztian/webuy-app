@@ -117,7 +117,6 @@ export const AssistantProductCardsBlock = ({
               </div>
               <Button
                 type="button"
-                variant="secondary"
                 onClick={() => onNavigate(`/${locale}/products/${product.id}`)}
               >
                 View product

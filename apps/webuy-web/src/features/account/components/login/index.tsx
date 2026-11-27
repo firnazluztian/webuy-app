@@ -6,6 +6,7 @@ import { Button, Card, Input } from "@kiichan/design-system";
 import { useLogin, useSession } from "@/features/account/hooks/use-session";
 import { useTranslations } from "@/features/shell/hooks/use-translations";
 import type { Locale } from "@/i18n/types";
+import { SessionExpiredError } from "@/lib/client-api";
 
 interface FieldErrors {
   username?: string;
@@ -24,10 +25,13 @@ export const Login = ({ locale }: { locale: Locale }) => {
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
 
   useEffect(() => {
+    if (session.error instanceof SessionExpiredError) {
+      return;
+    }
     if (session.data) {
       router.replace(`/${locale}/account/dashboard`);
     }
-  }, [locale, router, session.data]);
+  }, [locale, router, session.data, session.error]);
 
   const goToAccount = () => {
     router.push(`/${locale}/account/dashboard`);

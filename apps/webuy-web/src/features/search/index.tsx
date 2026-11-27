@@ -187,7 +187,7 @@ export const Search = ({ locale, query }: { locale: Locale; query: string }) => 
                   {t.search.openFilters}
                   {activeCount > 0 ? ` (${activeCount})` : ''}
                 </Button>
-                <div className="min-w-[12rem] flex-1 sm:flex-none">
+                <div className="min-w-48 flex-1 sm:flex-none">
                   <Select
                     label={t.search.sort}
                     aria-label={t.search.sort}

@@ -21,7 +21,7 @@ export const ProductCard = ({
       href={`/${locale}/products/${product.id}`}
       className="group flex flex-col gap-3 p-0"
     >
-      <div className="relative aspect-[4/5] overflow-hidden rounded-3xl bg-neutral-50">
+      <div className="relative aspect-4/5 overflow-hidden rounded-3xl bg-neutral-50">
         <Image
           src={product.thumbnail}
           alt={product.title}

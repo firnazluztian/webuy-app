@@ -1,3 +1,5 @@
+'use client';
+
 import { Skeleton, Text } from '@kiichan/design-system';
 
 interface CartSkeletonProps {

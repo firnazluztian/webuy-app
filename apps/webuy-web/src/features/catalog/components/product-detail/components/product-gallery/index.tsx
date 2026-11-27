@@ -24,7 +24,7 @@ export const ProductGallery = ({
   if (!activeImage) {
     return (
       <div
-        className="aspect-[4/5] w-full rounded-3xl bg-neutral-50"
+        className="aspect-4/5 w-full rounded-3xl bg-neutral-50"
         aria-hidden
       />
     );
@@ -32,7 +32,7 @@ export const ProductGallery = ({
 
   return (
     <div className="flex flex-col gap-3" aria-label={t.product.galleryLabel}>
-      <div className="relative aspect-[4/5] w-full overflow-hidden rounded-3xl bg-neutral-50">
+      <div className="relative aspect-4/5 w-full overflow-hidden rounded-3xl bg-neutral-50">
         <Image
           src={activeImage}
           alt={title}

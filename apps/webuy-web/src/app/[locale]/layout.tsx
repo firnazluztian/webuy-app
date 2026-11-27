@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import type { ReactNode } from 'react';
 import { AssistantFab } from '@/features/assistant';
 import { AppProviders, Footer, Topbar } from '@/features/shell';
+import { BodyScrollGuard } from '@/features/shell/components/body-scroll-guard';
 import { isLocale } from '@/i18n/config';
 import type { Locale } from '@/i18n/types';
 
@@ -20,6 +21,7 @@ export default async function LocaleLayout({
 
   return (
     <AppProviders>
+      <BodyScrollGuard />
       <div className="flex min-h-screen flex-col">
         <Topbar locale={locale} />
         <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 pb-24 sm:pb-8">

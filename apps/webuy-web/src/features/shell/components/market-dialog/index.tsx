@@ -126,8 +126,13 @@ export const MarketDialog = ({
           onClick={() => {
             setMarketId(draftMarket);
             onClose();
+            // Unlock before locale remount — Dialog exit timer is cleared on
+            // unmount and can leave body overflow:hidden stuck.
+            document.body.style.overflow = '';
             if (draftLocale !== locale) {
-              router.push(swapLocale(pathname, draftLocale));
+              window.setTimeout(() => {
+                router.push(swapLocale(pathname, draftLocale));
+              }, 0);
             }
           }}
         >

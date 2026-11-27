@@ -9,6 +9,7 @@ import { useSession } from "@/features/account/hooks/use-session";
 import { useCartHydrated } from "@/features/cart/hooks/use-cart-hydrated";
 import { useCartStore } from "@/features/cart/hooks/use-cart-store";
 import { MarketDialog } from "@/features/shell/components/market-dialog";
+import { NavigationProgress } from "@/features/shell/components/navigation-progress";
 import { useMarketHydrated } from "@/features/shell/hooks/use-market-hydrated";
 import { useMarketStore } from "@/features/shell/hooks/use-market-store";
 import { useTranslations } from "@/features/shell/hooks/use-translations";
@@ -85,88 +86,91 @@ export const Topbar = ({ locale }: { locale: Locale }) => {
 
   return (
     <>
-      <header className="sticky top-0 z-40 border-b border-light/10 bg-dark/95 text-light backdrop-blur-xl">
-        <div className="mx-auto max-w-6xl px-4">
-          {/* Desktop */}
-          <div className="hidden h-16 items-center gap-8 sm:grid sm:grid-cols-[auto_minmax(0,1fr)_auto]">
-            <Link
-              href={`/${locale}`}
-              className="shrink-0 text-lg font-semibold tracking-[0.22em] uppercase text-light"
-            >
-              {t.shell.brand}
-            </Link>
-
-            <form onSubmit={onSearch} className="min-w-0">
-              <Input
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-                placeholder={t.shell.searchPlaceholder}
-                aria-label={t.shell.searchPlaceholder}
-                leftIcon="mdi:magnify"
-                fullWidth
-                className="text-dark"
-              />
-            </form>
-
-            <nav className="flex items-center gap-2">
-              <Button
-                type="button"
-                variant="ghost"
-                leftIcon={languageFlag}
-                aria-label={t.shell.language}
-                isIconOnly
-                onClick={() => setMarketOpen(true)}
-              />
-              
-              <Button
-                type="button"
-                variant="ghost"
-                leftIcon="mdi:cart-outline"
-                className="text-white hover:text-primary"
-                aria-label={cartLabel}
-                onClick={() => router.push(`/${locale}/cart`)}
-             >
-              {safeQty ? cartLabel : null}
-              </Button>
-              <Button type="button" onClick={() => router.push(authHref)}>
-                {authLabel}
-              </Button>
-            </nav>
-          </div>
-
-          {/* Mobile top */}
-          <div className="flex flex-col gap-3 py-3 sm:hidden">
-            <div className="flex items-center justify-between gap-3">
+      <div className="sticky top-0 z-40">
+        <header className="border-b border-light/10 bg-dark/95 text-light backdrop-blur-xl">
+          <div className="mx-auto max-w-6xl px-4">
+            {/* Desktop */}
+            <div className="hidden h-16 items-center gap-8 sm:grid sm:grid-cols-[auto_minmax(0,1fr)_auto]">
               <Link
                 href={`/${locale}`}
-                className="text-base font-semibold tracking-[0.2em] uppercase text-light"
+                className="shrink-0 text-lg font-semibold tracking-[0.22em] uppercase text-light"
               >
                 {t.shell.brand}
               </Link>
-              <Button
-                type="button"
-                variant="outline"
-                className="text-white"
-                leftIcon={languageFlag}
-                aria-label={t.shell.language}
-                onClick={() => setMarketOpen(true)}
-              >
-                {marketLabel}
-              </Button>
+
+              <form onSubmit={onSearch} className="min-w-0">
+                <Input
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                  placeholder={t.shell.searchPlaceholder}
+                  aria-label={t.shell.searchPlaceholder}
+                  leftIcon="mdi:magnify"
+                  fullWidth
+                  className="text-dark"
+                />
+              </form>
+
+              <nav className="flex items-center gap-2">
+                <Button
+                  type="button"
+                  variant="ghost"
+                  leftIcon={languageFlag}
+                  aria-label={t.shell.language}
+                  isIconOnly
+                  onClick={() => setMarketOpen(true)}
+                />
+
+                <Button
+                  type="button"
+                  variant="ghost"
+                  leftIcon="mdi:cart-outline"
+                  className="text-white hover:text-primary"
+                  aria-label={cartLabel}
+                  onClick={() => router.push(`/${locale}/cart`)}
+                >
+                  {safeQty ? cartLabel : null}
+                </Button>
+                <Button type="button" onClick={() => router.push(authHref)}>
+                  {authLabel}
+                </Button>
+              </nav>
             </div>
-            <form onSubmit={onSearch} className="min-w-0">
-              <Input
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-                placeholder={t.shell.searchPlaceholder}
-                aria-label={t.shell.searchPlaceholder}
-                leftIcon="mdi:magnify"
-                fullWidth
-              />
-            </form>
+
+            {/* Mobile top */}
+            <div className="flex flex-col gap-3 py-3 sm:hidden">
+              <div className="flex items-center justify-between gap-3">
+                <Link
+                  href={`/${locale}`}
+                  className="text-base font-semibold tracking-[0.2em] uppercase text-light"
+                >
+                  {t.shell.brand}
+                </Link>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="text-white"
+                  leftIcon={languageFlag}
+                  aria-label={t.shell.language}
+                  onClick={() => setMarketOpen(true)}
+                >
+                  {marketLabel}
+                </Button>
+              </div>
+              <form onSubmit={onSearch} className="min-w-0">
+                <Input
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                  placeholder={t.shell.searchPlaceholder}
+                  aria-label={t.shell.searchPlaceholder}
+                  leftIcon="mdi:magnify"
+                  fullWidth
+                />
+              </form>
+            </div>
           </div>
-        </div>
-      </header>
+        </header>
+        <NavigationProgress />
+      </div>
 
       <nav
         className="fixed inset-x-0 bottom-0 z-40 bg-light sm:hidden opacity-90 rounded-t-2xl"

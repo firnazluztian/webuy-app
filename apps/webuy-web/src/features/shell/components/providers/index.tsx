@@ -1,8 +1,9 @@
 'use client';
 
+import { ToastProvider } from '@kiichan/design-system';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import type { ReactNode } from 'react';
-import { useState } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
+import { SessionExpiryGuard } from '@/features/account/components/session-expiry-guard';
 import { staleTimes } from '@/lib/query-keys';
 
 export const AppProviders = ({ children }: { children: ReactNode }) => {
@@ -18,6 +19,20 @@ export const AppProviders = ({ children }: { children: ReactNode }) => {
         },
       })
   );
+  const [toastsReady, setToastsReady] = useState(false);
 
-  return <QueryClientProvider client={client}>{children}</QueryClientProvider>;
+  useEffect(() => {
+    setToastsReady(true);
+  }, []);
+
+  return (
+    <QueryClientProvider client={client}>
+      {children}
+      {toastsReady ? (
+        <ToastProvider>
+          <SessionExpiryGuard />
+        </ToastProvider>
+      ) : null}
+    </QueryClientProvider>
+  );
 };

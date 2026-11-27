@@ -36,6 +36,7 @@ export const AssistantFab = ({ locale }: AssistantFabProps) => {
   const closeAll = () => {
     setIsOpen(false);
     setIsExpanded(false);
+    unlockBodyScroll();
   };
 
   const dismissBubble = () => {
@@ -49,13 +50,18 @@ export const AssistantFab = ({ locale }: AssistantFabProps) => {
     }
   }, []);
 
-  // Dialog locks body via overflow=hidden and only restores after its exit
-  // timeout — collapsing to popover / clearing that timer can leave scroll stuck.
+  // Dialog can leak body overflow=hidden when collapsing Dialog↔Popover or
+  // remounting mid exit-timer. Always clear unless the expanded dialog is open.
   useEffect(() => {
     if (isOpen && isExpanded) {
       return;
     }
     unlockBodyScroll();
+    const timer = window.setTimeout(unlockBodyScroll, 350);
+    return () => {
+      window.clearTimeout(timer);
+      unlockBodyScroll();
+    };
   }, [isOpen, isExpanded]);
 
   const handleToggleExpanded = () => {
@@ -184,7 +190,7 @@ export const AssistantFab = ({ locale }: AssistantFabProps) => {
         onClose={closeAll}
         backdrop="blur"
         closeOnBackdropClick
-        scrollBehavior="inside"
+        scrollBehavior="outside"
         position="right"
         sizeClassName="h-full max-h-none w-full max-w-md sm:max-w-lg"
         className="flex h-full flex-col overflow-hidden p-0"

@@ -1,3 +1,5 @@
+'use client';
+
 import { Skeleton } from '@kiichan/design-system';
 
 export const ProductDetailSkeleton = () => (
@@ -10,7 +12,7 @@ export const ProductDetailSkeleton = () => (
     <Skeleton className="h-4 w-48" />
     <div className="grid items-start gap-10 lg:grid-cols-2 lg:gap-14">
       <div className="flex flex-col gap-3">
-        <Skeleton className="aspect-[4/5] w-full rounded-3xl" fullWidth />
+        <Skeleton className="aspect-4/5 w-full rounded-3xl" fullWidth />
         <div className="grid grid-cols-4 gap-2">
           <Skeleton className="aspect-square w-full rounded-2xl" fullWidth />
           <Skeleton className="aspect-square w-full rounded-2xl" fullWidth />

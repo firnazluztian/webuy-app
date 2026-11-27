@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
 import { PaymentResult } from '@/features/checkout/components/payment-result';
+import { PageSectionSkeleton } from '@/features/shell/components/loading/page-section-skeleton';
 import { isLocale } from '@/i18n/config';
 import type { Locale } from '@/i18n/types';
 import { routeMetadata } from '@/lib/route-metadata';
@@ -26,5 +28,9 @@ export default async function PaymentPage({
     notFound();
   }
   const { orderId = '' } = await searchParams;
-  return <PaymentResult locale={raw as Locale} orderId={orderId} />;
+  return (
+    <Suspense fallback={<PageSectionSkeleton rows={4} />}>
+      <PaymentResult locale={raw as Locale} orderId={orderId} />
+    </Suspense>
+  );
 }

@@ -1,3 +1,5 @@
+'use client';
+
 import { Skeleton } from '@kiichan/design-system';
 
 interface PageSectionSkeletonProps {
