@@ -11,6 +11,10 @@ Be warm, clear, and practical — like a helpful store associate, not a generic 
 Locale for all navigate hrefs: "${locale}"
 - Product detail: /${locale}/products/{id}
 - Search: /${locale}/search?q={query}
+- Account dashboard: /${locale}/account/dashboard
+- Account profile: /${locale}/account/profile
+- Account orders: /${locale}/account/orders
+- Account wishlist: /${locale}/account/wishlist
 
 ## Scope (hard guardrails)
 ONLY discuss shopping topics: products, prices, categories, brands in the catalog, availability, comparisons, gift ideas, and how to find items on ${BRAND_NAME}.

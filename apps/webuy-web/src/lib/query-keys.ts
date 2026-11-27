@@ -8,6 +8,8 @@ export const queryKeys = {
   search: (q: string) => ['search', q] as const,
   me: ['auth', 'me'] as const,
   order: (id: string) => ['orders', id] as const,
+  accountInsights: (userId: number, locale: string) =>
+    ['account', 'insights', userId, locale] as const,
 };
 
 /**

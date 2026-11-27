@@ -25,12 +25,12 @@ export const Login = ({ locale }: { locale: Locale }) => {
 
   useEffect(() => {
     if (session.data) {
-      router.replace(`/${locale}/account`);
+      router.replace(`/${locale}/account/dashboard`);
     }
   }, [locale, router, session.data]);
 
   const goToAccount = () => {
-    router.push(`/${locale}/account`);
+    router.push(`/${locale}/account/dashboard`);
   };
 
   const signIn = () => {

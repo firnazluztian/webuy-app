@@ -67,7 +67,7 @@ export const Topbar = ({ locale }: { locale: Locale }) => {
   }
 
   const isSignedIn = Boolean(session.data);
-  const authHref = isSignedIn ? `/${locale}/account` : `/${locale}/login`;
+  const authHref = isSignedIn ? `/${locale}/account/dashboard` : `/${locale}/login`;
   const authLabel = session.data
     ? `${t.shell.hi} ${session.data.firstName}`
     : t.shell.login;

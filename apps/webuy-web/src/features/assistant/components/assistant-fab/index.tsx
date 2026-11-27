@@ -1,6 +1,6 @@
 'use client';
 
-import { Dialog, Popover } from '@kiichan/design-system';
+import { Button, Dialog, Popover } from '@kiichan/design-system';
 import { Mascot } from 'page-mascot';
 import { useEffect, useState } from 'react';
 import { ChatPanel } from '@/features/assistant/components/chat-panel';
@@ -24,12 +24,17 @@ export const AssistantFab = ({ locale }: AssistantFabProps) => {
   const t = useTranslations(locale);
   const [isOpen, setIsOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isBubbleVisible, setIsBubbleVisible] = useState(true);
   const { messages, sendMessage, status, error, clearConversation } =
     useAssistantChat(locale);
 
   const closeAll = () => {
     setIsOpen(false);
     setIsExpanded(false);
+  };
+
+  const dismissBubble = () => {
+    setIsBubbleVisible(false);
   };
 
   // Dialog locks body via overflow=hidden and only restores after its exit
@@ -67,7 +72,39 @@ export const AssistantFab = ({ locale }: AssistantFabProps) => {
 
   return (
     <>
-      <div className="fixed bottom-24 right-4 z-50 sm:bottom-6 sm:right-6">
+      <div className="fixed bottom-24 right-4 z-50 flex flex-col items-end sm:bottom-6 sm:right-6">
+        {isBubbleVisible ? (
+          <div
+            className="kiichan-bubble-in relative mb-2 max-w-54 cursor-pointer rounded-2xl bg-white px-3.5 py-2.5 text-left shadow-[0_10px_28px_-16px_rgba(12,18,34,0.35)] ring-1 ring-gray-200 sm:max-w-60"
+            onClick={dismissBubble}
+          >
+            <div className="flex items-start justify-between gap-2">
+              <p className="text-[10px] font-medium uppercase tracking-[0.16em] text-primary">
+                {t.shell.assistantBubbleSays}
+              </p>
+              <Button
+                type="button"
+                variant="ghost"
+                isIconOnly
+                leftIcon="mdi:close"
+                aria-label={t.shell.assistantBubbleClose}
+                className="-mr-1 -mt-1 min-w-0 shrink-0"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  dismissBubble();
+                }}
+              />
+            </div>
+            <p className="mt-1 text-sm leading-snug text-dark">
+              {t.shell.assistantBubbleMessage}
+            </p>
+            <span
+              aria-hidden
+              className="absolute top-full left-1/2 h-0 w-0 -translate-x-1/2 border-x-[7px] border-t-8 border-x-transparent border-t-white drop-shadow-[0_1px_0_#e5e7eb]"
+            />
+          </div>
+        ) : null}
+
         <Popover
           placement="top-end"
           variant="elevated"
@@ -100,7 +137,7 @@ export const AssistantFab = ({ locale }: AssistantFabProps) => {
             tabIndex={0}
             aria-label={t.shell.assistantOpen}
             aria-expanded={isOpen}
-            className="flex cursor-pointer flex-col items-end outline-none"
+            className="cursor-pointer outline-none"
             onClick={() => {
               if (isExpanded) {
                 closeAll();
@@ -117,19 +154,6 @@ export const AssistantFab = ({ locale }: AssistantFabProps) => {
               closeAll();
             }}
           >
-            <div className="kiichan-bubble-in relative mb-2 max-w-54 rounded-2xl bg-white px-3.5 py-2.5 text-left shadow-[0_10px_28px_-16px_rgba(12,18,34,0.35)] ring-1 ring-gray-200 sm:max-w-60">
-              <p className="text-[10px] font-medium uppercase tracking-[0.16em] text-primary">
-                {t.shell.assistantBubbleSays}
-              </p>
-              <p className="mt-1 text-sm leading-snug text-dark">
-                {t.shell.assistantBubbleMessage}
-              </p>
-              <span
-                aria-hidden
-                className="absolute top-full left-1/2 h-0 w-0 -translate-x-1/2 border-x-[7px] border-t-8 border-x-transparent border-t-white drop-shadow-[0_1px_0_#e5e7eb]"
-              />
-            </div>
-
             {/* Mascot is a <button>; disable pointer events so the trigger owns press/dismiss. */}
             <div className="kiichan-float pointer-events-none">
               <Mascot
