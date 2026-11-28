@@ -37,6 +37,12 @@ const en: Messages = {
     assistantGuestName: 'there',
     assistantLoginRequired: `Sign in to chat with the ${BRAND_NAME} Assistant and get personalized product help.`,
     assistantLoginCta: 'Sign in to continue',
+    assistantVoiceStart: 'Start voice input',
+    assistantVoiceStop: 'Stop voice input',
+    assistantListening: 'Listening…',
+    assistantVoicePermissionError:
+      'Microphone access was blocked. Allow it in browser settings to use voice input.',
+    assistantVoiceError: 'Voice input failed. Try again or type your message.',
   },
   home: {
     heroTitle: 'Find what you need',

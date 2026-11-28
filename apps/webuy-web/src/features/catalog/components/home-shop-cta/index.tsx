@@ -11,6 +11,7 @@ export const HomeShopCta = ({ locale, label }: { locale: Locale; label: string }
     <Button
       type="button"
       variant="primary"
+      className="min-h-12 px-8 text-base"
       onClick={() => router.push(`/${locale}/search`)}
     >
       {label}

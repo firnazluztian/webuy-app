@@ -37,6 +37,12 @@ const id: Messages = {
     assistantGuestName: 'teman',
     assistantLoginRequired: `Masuk untuk mengobrol dengan Asisten ${BRAND_NAME} dan dapatkan bantuan produk.`,
     assistantLoginCta: 'Masuk untuk lanjut',
+    assistantVoiceStart: 'Mulai input suara',
+    assistantVoiceStop: 'Berhenti input suara',
+    assistantListening: 'Mendengarkan…',
+    assistantVoicePermissionError:
+      'Akses mikrofon diblokir. Izinkan di pengaturan browser untuk memakai input suara.',
+    assistantVoiceError: 'Input suara gagal. Coba lagi atau ketik pesanmu.',
   },
   home: {
     heroTitle: 'Temukan yang Anda butuhkan',

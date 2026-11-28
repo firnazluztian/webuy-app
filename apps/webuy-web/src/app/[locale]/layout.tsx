@@ -22,7 +22,7 @@ export default async function LocaleLayout({
   return (
     <AppProviders>
       <BodyScrollGuard />
-      <div className="flex min-h-screen flex-col overflow-x-hidden">
+      <div className="flex min-h-screen flex-col overflow-x-clip">
         <Topbar locale={locale} />
         <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 pb-24 sm:pb-8">
           {children}

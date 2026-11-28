@@ -25,23 +25,29 @@ export const HomeHeroCarousel = ({ locale }: { locale: Locale }) => {
 
   if (isError || !products.length) {
     return (
-      <section className="relative -mt-8 ml-[calc(50%-50vw)] flex h-[70vh] w-screen flex-col justify-end gap-4 bg-neutral-900 px-6 py-16 text-white sm:px-10 md:px-14">
-        <p className="text-sm font-medium uppercase tracking-[0.2em] text-primary-200">
-          {t.shell.brand}
-        </p>
-        <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">{t.home.heroTitle}</h1>
-        <p className="max-w-xl text-base text-neutral-300">{t.home.heroSubtitle}</p>
-        {isError ? (
-          <button
-            type="button"
-            className="w-fit text-sm text-primary-200 underline"
-            onClick={() => refetch()}
-          >
-            {t.common.retry}
-          </button>
-        ) : (
-          <HomeShopCta locale={locale} label={t.home.shopNow} />
-        )}
+      <section className="relative -mt-8 ml-[calc(50%-50vw)] flex h-[70vh] w-screen flex-col justify-end bg-neutral-900 py-16 text-white">
+        <div className="mx-auto flex w-full max-w-6xl flex-col gap-5 px-4">
+          <p className="text-sm font-medium uppercase tracking-[0.2em] text-primary-200">
+            {t.shell.brand}
+          </p>
+          <h1 className="text-5xl font-semibold tracking-tight sm:text-6xl">
+            {t.home.heroTitle}
+          </h1>
+          <p className="max-w-2xl text-lg text-neutral-300 sm:text-xl">
+            {t.home.heroSubtitle}
+          </p>
+          {isError ? (
+            <button
+              type="button"
+              className="w-fit text-sm text-primary-200 underline"
+              onClick={() => refetch()}
+            >
+              {t.common.retry}
+            </button>
+          ) : (
+            <HomeShopCta locale={locale} label={t.home.shopNow} />
+          )}
+        </div>
       </section>
     );
   }
@@ -84,32 +90,42 @@ export const HomeHeroCarousel = ({ locale }: { locale: Locale }) => {
         <div className="absolute inset-0 bg-linear-to-t from-neutral-900 via-neutral-900/45 to-neutral-900/10" />
         <div className="absolute inset-0 bg-linear-to-r from-neutral-900/70 via-transparent to-transparent" />
 
-        <div className="absolute inset-0 flex flex-col justify-end gap-6 p-6 pb-14 sm:justify-center sm:p-10 sm:pb-16 md:p-14">
-          <div className="flex max-w-xl flex-col gap-4">
-            <p className="text-xs font-medium uppercase tracking-[0.28em] text-primary-200">
-              {t.shell.brand}
-            </p>
-            <h1 className="text-4xl font-semibold tracking-tight text-white sm:text-5xl">
-              {t.home.heroTitle}
-            </h1>
-            <p className="text-base text-neutral-200">{t.home.heroSubtitle}</p>
-            <div className="pt-1">
-              <HomeShopCta locale={locale} label={t.home.shopNow} />
+        <div className="absolute inset-0 flex flex-col justify-end pb-14 sm:justify-center sm:pb-16">
+          <div className="relative mx-auto flex w-full max-w-6xl flex-col gap-6 px-4">
+            <div className="flex max-w-2xl flex-col gap-5">
+              <p className="text-sm font-medium uppercase tracking-[0.28em] text-primary-200">
+                {t.shell.brand}
+              </p>
+              <h1 className="text-5xl font-semibold tracking-tight text-white sm:text-6xl">
+                {t.home.heroTitle}
+              </h1>
+              <p className="text-lg text-neutral-200 sm:text-xl">
+                {t.home.heroSubtitle}
+              </p>
+              <div className="pt-1">
+                <HomeShopCta locale={locale} label={t.home.shopNow} />
+              </div>
             </div>
-          </div>
 
-          {activeProduct ? (
-            <Link
-              href={`/${locale}/products/${activeProduct.id}`}
-              className="flex max-w-sm flex-col gap-1 border-t border-white/20 pt-4 transition-opacity hover:opacity-80 sm:absolute sm:right-10 sm:bottom-16 sm:border-t-0 sm:pt-0 md:right-14 md:bottom-20"
-            >
-              <span className="text-[11px] font-medium uppercase tracking-[0.22em] text-neutral-300">
-                {activeProduct.brand ?? activeProduct.category ?? t.home.featuredHeading}
-              </span>
-              <span className="text-lg font-medium text-white">{activeProduct.title}</span>
-              <span className="text-sm text-primary-200">{format(activeProduct.price)}</span>
-            </Link>
-          ) : null}
+            {activeProduct ? (
+              <Link
+                href={`/${locale}/products/${activeProduct.id}`}
+                className="flex max-w-sm flex-col gap-1 border-t border-white/20 pt-4 transition-opacity hover:opacity-80 sm:absolute sm:right-4 sm:bottom-0 sm:border-t-0 sm:pt-0"
+              >
+                <span className="text-[11px] font-medium uppercase tracking-[0.22em] text-neutral-300">
+                  {activeProduct.brand ??
+                    activeProduct.category ??
+                    t.home.featuredHeading}
+                </span>
+                <span className="text-lg font-medium text-white">
+                  {activeProduct.title}
+                </span>
+                <span className="text-sm text-primary-200">
+                  {format(activeProduct.price)}
+                </span>
+              </Link>
+            ) : null}
+          </div>
         </div>
 
         <div

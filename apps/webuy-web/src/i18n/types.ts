@@ -39,6 +39,11 @@ export interface Messages {
     assistantGuestName: string;
     assistantLoginRequired: string;
     assistantLoginCta: string;
+    assistantVoiceStart: string;
+    assistantVoiceStop: string;
+    assistantListening: string;
+    assistantVoicePermissionError: string;
+    assistantVoiceError: string;
   };
   home: {
     heroTitle: string;

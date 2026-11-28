@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Skeleton, Text, Textarea } from '@kiichan/design-system';
+import { Button, Skeleton, Text, Input } from '@kiichan/design-system';
 import type { ChatStatus, UIMessage } from 'ai';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -8,6 +8,7 @@ import { useSession } from '@/features/account/hooks/use-session';
 import { LoginGate } from '@/features/assistant/components/login-gate';
 import { MessageList } from '@/features/assistant/components/message-list';
 import { WelcomeEmpty } from '@/features/assistant/components/welcome-empty';
+import { useSpeechToText } from '@/features/assistant/hooks/use-speech-to-text';
 import { useTranslations } from '@/features/shell/hooks/use-translations';
 import type { Locale } from '@/i18n/types';
 
@@ -48,11 +49,19 @@ export const ChatPanel = ({
     session.data?.username?.trim() ||
     t.shell.assistantGuestName;
 
+  const speech = useSpeechToText({
+    locale,
+    value: input,
+    onValueChange: setInput,
+    disabled: isBusy || !isSignedIn,
+  });
+
   const handleSend = (text: string) => {
     const trimmed = text.trim();
     if (!trimmed || isBusy || !isSignedIn) {
       return;
     }
+    speech.stop();
     onSendMessage(trimmed);
     setInput('');
     setScrollNonce((value) => value + 1);
@@ -123,6 +132,16 @@ export const ChatPanel = ({
         </div>
       ) : null}
 
+      {speech.error && isSignedIn ? (
+        <div className="px-4 pb-2">
+          <Text variant="caption" className="text-danger">
+            {speech.error === 'permission'
+              ? t.shell.assistantVoicePermissionError
+              : t.shell.assistantVoiceError}
+          </Text>
+        </div>
+      ) : null}
+
       {isSignedIn ? (
         <>
           <div className="border-t border-neutral-100 px-3 pt-2">
@@ -141,28 +160,48 @@ export const ChatPanel = ({
           </div>
 
           <form
-            className="flex items-center gap-2 px-3 pb-3"
+            className="flex items-center gap-2 px-3 pb-2 w-full"
             onSubmit={(event) => {
               event.preventDefault();
               handleSend(input);
             }}
           >
-            <Textarea
-              value={input}
-              onChange={(event) => setInput(event.target.value)}
-              placeholder={t.shell.assistantPlaceholder}
-              disabled={isBusy}
-              minRows={1}
-              maxRows={4}
-              resize="none"
-              fullWidth
-              onKeyDown={(event) => {
-                if (event.key === 'Enter' && !event.shiftKey) {
-                  event.preventDefault();
-                  handleSend(input);
+            {speech.isSupported ? (
+              <Button
+                type="button"
+                variant={speech.isListening ? 'primary' : 'outline'}
+                isIconOnly
+                leftIcon={
+                  speech.isListening ? 'mdi:microphone' : 'mdi:microphone-outline'
                 }
-              }}
+                aria-label={
+                  speech.isListening
+                    ? t.shell.assistantVoiceStop
+                    : t.shell.assistantVoiceStart
+                }
+                aria-pressed={speech.isListening}
+                disabled={isBusy}
+                onClick={speech.toggle}
+              />
+            ) : null}
+            <Input
+              value={input}
+              fullWidth
+              onChange={(event) => setInput(event.target.value)}
+              placeholder={
+                speech.isListening
+                  ? t.shell.assistantListening
+                  : t.shell.assistantPlaceholder
+              }
+              disabled={isBusy}
+              // onKeyDown={(event) => {
+              //   if (event.key === 'Enter' && !event.shiftKey) {
+              //     event.preventDefault();
+              //     handleSend(input);
+              //   }
+              // }}
             />
+
             <Button
               type="submit"
               variant="outline"

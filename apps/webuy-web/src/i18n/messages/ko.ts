@@ -36,6 +36,12 @@ const ko: Messages = {
     assistantGuestName: '고객',
     assistantLoginRequired: `${BRAND_NAME} 어시스턴트와 채팅하려면 로그인해 주세요.`,
     assistantLoginCta: '로그인하고 계속',
+    assistantVoiceStart: '음성 입력 시작',
+    assistantVoiceStop: '음성 입력 중지',
+    assistantListening: '듣는 중…',
+    assistantVoicePermissionError:
+      '마이크 권한이 차단되었습니다. 브라우저 설정에서 허용해 주세요.',
+    assistantVoiceError: '음성 입력에 실패했습니다. 다시 시도하거나 직접 입력해 주세요.',
   },
   home: {
     heroTitle: '필요한 상품을 찾아보세요',
